@@ -1,4 +1,6 @@
 class Setting < ApplicationRecord
+  include Auditable
+
   validates :koperasi_name, presence: true
 
   def self.current
