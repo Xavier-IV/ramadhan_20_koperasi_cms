@@ -1,0 +1,46 @@
+<%= form_with model: [:admin, loan], class: ts(:form, :group) do |f| %>
+  <% if loan.errors.any? %>
+    <div class="<%= ts(:alert, :wrapper) %> <%= ts(:alert, :error) %>">
+      <div>
+        <p class="<%= ts(:alert, :title) %>"><%= pluralize(loan.errors.count, "error") %> prevented saving:</p>
+        <ul class="<%= ts(:alert, :message) %> list-disc pl-4 mt-1">
+          <% loan.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="<%= ts(:form, :field) %>">
+    <%= f.label :member_id, "Member", class: ts(:form, :label) %>
+    <%= f.collection_select :member_id, members, :id, :name, { prompt: "Select a member" }, class: ts(:select, :base) %>
+  </div>
+
+  <div class="flex items-center gap-6">
+    <div class="<%= ts(:form, :field) %> flex-1">
+      <%= f.label :amount, "Loan Amount (RM)", class: ts(:form, :label) %>
+      <%= f.number_field :amount, class: ts(:input, :base), step: 0.01, min: 0.01, placeholder: "e.g. 5000.00" %>
+    </div>
+    <div class="<%= ts(:form, :field) %> flex-1">
+      <%= f.label :monthly_repayment, "Monthly Repayment (RM)", class: ts(:form, :label) %>
+      <%= f.number_field :monthly_repayment, class: ts(:input, :base), step: 0.01, min: 0.01, placeholder: "e.g. 500.00" %>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-6">
+    <div class="<%= ts(:form, :field) %> flex-1">
+      <%= f.label :approved_date, "Approved Date", class: ts(:form, :label) %>
+      <%= f.date_field :approved_date, class: ts(:input, :base) %>
+    </div>
+    <div class="<%= ts(:form, :field) %> flex-1">
+      <%= f.label :status, class: ts(:form, :label) %>
+      <%= f.select :status, Loan.statuses.keys.map { |s| [s.titleize, s] }, {}, class: ts(:select, :base) %>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= f.submit loan.persisted? ? "Update" : "Create", class: ts(:button, :primary) %>
+    <%= link_to "Cancel", admin_loans_path, class: ts(:button, :ghost) %>
+  </div>
+<% end %>

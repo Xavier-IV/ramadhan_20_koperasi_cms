@@ -1,0 +1,48 @@
+<% content_for(:page_title, "Loans") %>
+
+<%= render "admin/components/page_header", heading: "Loans", subtitle: "Manage member loans" do %>
+  <%= link_to "New Loan", new_admin_loan_path, class: ts(:button, :primary) %>
+<% end %>
+
+<% if @loans.any? %>
+  <table class="<%= ts(:table, :wrapper) %>">
+    <thead class="<%= ts(:table, :head) %>">
+      <tr>
+        <th class="<%= ts(:table, :th) %>">Member</th>
+        <th class="<%= ts(:table, :th) %>">Amount (RM)</th>
+        <th class="<%= ts(:table, :th) %>">Approved</th>
+        <th class="<%= ts(:table, :th) %>">Monthly (RM)</th>
+        <th class="<%= ts(:table, :th) %>">Outstanding (RM)</th>
+        <th class="<%= ts(:table, :th) %>">Status</th>
+        <th class="<%= ts(:table, :th) %>"></th>
+      </tr>
+    </thead>
+    <tbody class="<%= ts(:table, :body) %>">
+      <% @loans.each do |loan| %>
+        <tr class="<%= ts(:table, :tr) %> <%= ts(:table, :tr_hover) %>">
+          <td class="<%= ts(:table, :td) %>"><%= loan.member.name %></td>
+          <td class="<%= ts(:table, :td) %>"><%= number_with_precision(loan.amount, precision: 2, delimiter: ",") %></td>
+          <td class="<%= ts(:table, :td) %>"><%= loan.approved_date.strftime("%b %-d, %Y") %></td>
+          <td class="<%= ts(:table, :td) %>"><%= number_with_precision(loan.monthly_repayment, precision: 2, delimiter: ",") %></td>
+          <td class="<%= ts(:table, :td) %>"><%= number_with_precision(loan.outstanding_balance, precision: 2, delimiter: ",") %></td>
+          <td class="<%= ts(:table, :td) %>">
+            <% if loan.active? %>
+              <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :success) %> <%= ts(:badge, :sm) %>">Active</span>
+            <% else %>
+              <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :default) %> <%= ts(:badge, :sm) %>">Settled</span>
+            <% end %>
+          </td>
+          <td class="<%= ts(:table, :td) %> text-right">
+            <%= link_to "View", admin_loan_path(loan), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
+            <%= link_to "Edit", edit_admin_loan_path(loan), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
+            <%= button_to "Delete", admin_loan_path(loan), method: :delete,
+              class: ts(:button, :danger) + " " + ts(:button, :sm),
+              data: { turbo_confirm: "Delete this loan?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <%= render "admin/components/empty_state", message: "No loans yet", subtext: "Create the first loan." %>
+<% end %>
