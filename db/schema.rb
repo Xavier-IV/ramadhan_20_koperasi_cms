@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_10_141459) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_10_141538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -88,6 +88,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_141459) do
     t.index [ "member_id" ], name: "index_contributions_on_member_id"
   end
 
+  create_table "loan_repayments", force: :cascade do |t|
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.bigint "loan_id", null: false
+    t.text "notes"
+    t.date "paid_on", null: false
+    t.datetime "updated_at", null: false
+    t.index [ "loan_id" ], name: "index_loan_repayments_on_loan_id"
+  end
+
+  create_table "loans", force: :cascade do |t|
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.date "approved_date", null: false
+    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
+    t.decimal "monthly_repayment", precision: 10, scale: 2, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.string "uuid"
+    t.index [ "member_id" ], name: "index_loans_on_member_id"
+    t.index [ "uuid" ], name: "index_loans_on_uuid", unique: true
+  end
+
   create_table "members", force: :cascade do |t|
     t.text "address"
     t.datetime "created_at", null: false
@@ -136,5 +159,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_141459) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "audit_logs", "users"
   add_foreign_key "contributions", "members"
+  add_foreign_key "loan_repayments", "loans"
+  add_foreign_key "loans", "members"
   add_foreign_key "sessions", "users"
 end
