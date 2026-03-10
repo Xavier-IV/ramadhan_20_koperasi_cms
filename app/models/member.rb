@@ -1,6 +1,8 @@
 class Member < ApplicationRecord
   include Auditable
 
+  has_many :contributions, dependent: :destroy
+
   enum :status, { active: 0, inactive: 1 }, default: :active
 
   validates :name, presence: true
@@ -9,6 +11,12 @@ class Member < ApplicationRecord
 
   scope :active, -> { where(status: :active) }
   scope :inactive, -> { where(status: :inactive) }
+  scope :in_arrears, -> {
+    joins(:contributions)
+      .where(contributions: { status: :missed })
+      .group("members.id")
+      .having("COUNT(contributions.id) >= 2")
+  }
 
   before_create :generate_member_id
   before_create :generate_uuid
