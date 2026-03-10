@@ -1,0 +1,48 @@
+<% content_for(:page_title, @member.name) %>
+
+<%= render "admin/components/page_header", heading: @member.name, subtitle: @member.member_id do %>
+  <%= link_to "Edit", edit_admin_member_path(@member), class: ts(:button, :primary) %>
+<% end %>
+
+<div class="<%= ts(:card, :wrapper) %>">
+  <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Member ID</dt>
+      <dd class="mt-1"><%= @member.member_id %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Status</dt>
+      <dd class="mt-1">
+        <% if @member.active? %>
+          <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :success) %> <%= ts(:badge, :sm) %>">Active</span>
+        <% else %>
+          <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :default) %> <%= ts(:badge, :sm) %>">Inactive</span>
+        <% end %>
+      </dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Name</dt>
+      <dd class="mt-1"><%= @member.name %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">IC Number</dt>
+      <dd class="mt-1"><%= @member.ic_number %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Phone</dt>
+      <dd class="mt-1"><%= @member.phone.present? ? @member.phone : "-" %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Join Date</dt>
+      <dd class="mt-1"><%= @member.join_date.strftime("%B %-d, %Y") %></dd>
+    </div>
+    <div class="sm:col-span-2">
+      <dt class="<%= ts(:form, :label) %>">Address</dt>
+      <dd class="mt-1"><%= @member.address.present? ? @member.address : "-" %></dd>
+    </div>
+  </dl>
+</div>
+
+<div class="mt-4">
+  <%= link_to "Back to Members", admin_members_path, class: ts(:button, :ghost) %>
+</div>

@@ -21,6 +21,7 @@ Ramadhan 20 Koperasi Cms -- a CMS app scaffolded from the YouTube channel cms_te
 - **User Impersonation** (`/admin/impersonation`) -- admins can view app as another user. Violet banner when active.
 - **Dark Mode** -- toggle in topbar, localStorage persistence, CSS custom properties. Disabled for already-dark themes.
 - **Image Upload Component** -- reusable partial `render "admin/components/image_upload", name: "model[images][]"`
+- **Members** (`/admin/members`) -- Full CRUD for cooperative members. Auto-generated member_id (KWB-001 format), uuid lookup, status enum (active/inactive), Auditable.
 - **Settings** (`/admin/setting/edit`) -- singleton resource for koperasi details (name, registration number, phone, email, address)
 
 ## Tech Stack
@@ -47,6 +48,13 @@ POST   /passwords              passwords#create
 GET    /passwords/:token/edit  passwords#edit              (application layout)
 PATCH  /passwords/:token       passwords#update
 GET    /admin                  admin/dashboard#index       (admin layout, requires admin)
+GET    /admin/members          admin/members#index         (admin layout)
+GET    /admin/members/new      admin/members#new           (admin layout)
+POST   /admin/members          admin/members#create        (admin layout)
+GET    /admin/members/:id      admin/members#show          (admin layout)
+GET    /admin/members/:id/edit admin/members#edit          (admin layout)
+PATCH  /admin/members/:id      admin/members#update        (admin layout)
+DELETE /admin/members/:id      admin/members#destroy       (admin layout)
 GET    /admin/announcements    admin/announcements#index   (admin layout)
 POST   /admin/announcements    admin/announcements#create
 GET    /admin/announcements/new admin/announcements#new
@@ -66,6 +74,7 @@ PATCH  /admin/setting           admin/settings#update        (admin layout)
 - `app/controllers/admin/base_controller.rb` -- base controller with `require_admin` and `admin` layout
 - `app/controllers/concerns/authentication.rb` -- Rails 8.1 auth with injected `current_user` helper
 - `app/controllers/concerns/impersonatable.rb` -- overrides `current_user` when impersonating, provides `impersonating?` and `true_user` helpers
+- `app/models/member.rb` -- cooperative member with auto-generated KWB member_id, uuid lookup, status enum, Auditable
 - `app/models/announcement.rb` -- rich text body, kind enum, active scope with date range
 - `app/models/audit_log.rb` -- polymorphic auditable association, `.log` class method, scopes for filtering/pagination
 - `app/models/concerns/auditable.rb` -- auto-logs create/update/destroy via after_commit callbacks

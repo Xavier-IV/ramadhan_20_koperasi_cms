@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root "pages#home"
     namespace :admin do
       root "dashboard#index"
+      resources :members
       resources :announcements, except: [ :show ]
       resource :impersonation, only: [ :create, :destroy ]
       resources :audit_logs, only: [ :index ]

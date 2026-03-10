@@ -1,0 +1,26 @@
+ahmad:
+  member_id: KWB-001
+  uuid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+  name: Ahmad Bin Abdullah
+  ic_number: 800101-14-5001
+  phone: "011-2345678"
+  join_date: 2020-01-15
+  status: 0
+
+siti:
+  member_id: KWB-002
+  uuid: b2c3d4e5-f6a7-8901-bcde-f12345678901
+  name: Siti Binti Mohd Noor
+  ic_number: 850505-08-6002
+  phone: "012-3456789"
+  join_date: 2020-02-01
+  status: 0
+
+inactive_zainal:
+  member_id: KWB-010
+  uuid: c3d4e5f6-a7b8-9012-cdef-123456789012
+  name: Zainal Bin Abidin
+  ic_number: 870303-14-4010
+  phone: "011-1234567"
+  join_date: 2022-01-01
+  status: 1
