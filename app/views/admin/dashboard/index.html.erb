@@ -1,35 +1,57 @@
 <% content_for(:page_title, "Dashboard") %>
 
-<!-- Greeting -->
-<%= render "admin/components/page_header",
-  heading: "#{greeting_time}, #{current_user.email_address.split('@').first}",
-  subtitle: "Here's what's happening with your team." %>
+<%= render "admin/components/page_header", heading: "Dashboard" %>
 
-<!-- Stats -->
-<div class="<%= ts(:stat, :group) %>">
-  <%= render "admin/components/stat", label: "members", value: 0 %>
-  <%= render "admin/components/stat", label: "departments", value: 0 %>
-  <%= render "admin/components/stat", label: "active", value: 0 %>
+<!-- Stat Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+
+  <!-- Card 1: Total Active Members -->
+  <div class="<%= ts(:stat, :wrapper) %> rounded-lg border border-stone-200 bg-white p-6">
+    <p class="text-3xl font-semibold text-stone-800 tabular-nums"><%= @total_active_members %></p>
+    <p class="text-sm text-stone-500 mt-1">Active Members</p>
+  </div>
+
+  <!-- Card 2: Contributions This Month -->
+  <div class="<%= ts(:stat, :wrapper) %> rounded-lg border border-stone-200 bg-white p-6">
+    <p class="text-3xl font-semibold text-stone-800 tabular-nums">RM <%= number_with_delimiter(@total_contributions_this_month, delimiter: ",") %></p>
+    <p class="text-sm text-stone-500 mt-1">Collected This Month (<%= Date::MONTHNAMES[Date.today.month] %> <%= Date.today.year %>)</p>
+  </div>
+
+  <!-- Card 3: Members in Arrears -->
+  <% if @members_in_arrears.size > 0 %>
+    <div class="rounded-lg border border-red-300 bg-red-50 p-6">
+      <p class="text-3xl font-semibold text-red-900 tabular-nums"><%= @members_in_arrears.size %></p>
+      <p class="text-sm text-red-700 mt-1">Members in Arrears (2+ missed)</p>
+      <p class="text-xs text-red-600 mt-2"><%= @members_in_arrears.map { |m| "#{m.member_id} – #{m.name}" }.join(", ") %></p>
+    </div>
+  <% else %>
+    <div class="rounded-lg border border-green-300 bg-green-50 p-6">
+      <p class="text-3xl font-semibold text-green-900 tabular-nums">0</p>
+      <p class="text-sm text-green-700 mt-1">Members in Arrears (2+ missed)</p>
+      <p class="text-xs text-green-600 mt-2">All members up to date</p>
+    </div>
+  <% end %>
+
+  <!-- Card 4: Loans Needing Attention -->
+  <% if @loans_missed_this_month.size > 0 %>
+    <div class="rounded-lg border border-amber-300 bg-amber-50 p-6">
+      <p class="text-3xl font-semibold text-amber-900 tabular-nums"><%= @loans_missed_this_month.size %></p>
+      <p class="text-sm text-amber-700 mt-1">Active Loans with No Repayment This Month</p>
+      <p class="text-xs text-amber-600 mt-2"><%= @loans_missed_this_month.map { |l| l.member.name }.join(", ") %></p>
+    </div>
+  <% else %>
+    <div class="rounded-lg border border-green-300 bg-green-50 p-6">
+      <p class="text-3xl font-semibold text-green-900 tabular-nums">0</p>
+      <p class="text-sm text-green-700 mt-1">Active Loans with No Repayment This Month</p>
+      <p class="text-xs text-green-600 mt-2">All loans on track</p>
+    </div>
+  <% end %>
+
 </div>
 
-<div class="<%= ts(:stat, :divider) %>"></div>
-
-<!-- Two columns -->
-<div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
-
-  <!-- Get Started -->
-  <div class="lg:col-span-3">
-    <%= render "admin/components/section_label", text: "get started" %>
-    <div class="<%= ts(:step, :group) %>">
-      <%= render "admin/components/step", number: 1, title: "Create departments", description: "Organize your team -- engineering, design, marketing." %>
-      <%= render "admin/components/step", number: 2, title: "Add team members", description: "Name, role, photo, and department assignment." %>
-      <%= render "admin/components/step", number: 3, title: "Publish your team page", description: "Updates automatically as you add members." %>
-    </div>
-  </div>
-
-  <!-- Activity -->
-  <div class="lg:col-span-2">
-    <%= render "admin/components/section_label", text: "recent activity" %>
-    <%= render "admin/components/empty_state", message: "Nothing yet." %>
-  </div>
+<!-- Quick Links -->
+<div class="flex flex-wrap gap-3">
+  <%= link_to "Members", admin_members_path, class: ts(:button, :secondary) %>
+  <%= link_to "Contributions", admin_contributions_path, class: ts(:button, :secondary) %>
+  <%= link_to "Loans", admin_loans_path, class: ts(:button, :secondary) %>
 </div>
