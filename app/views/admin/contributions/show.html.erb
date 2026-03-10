@@ -1,0 +1,44 @@
+<% content_for(:page_title, "Contribution - #{@contribution.member.name}") %>
+
+<%= render "admin/components/page_header", heading: "Contribution Details", subtitle: "#{Date::MONTHNAMES[@contribution.month]} #{@contribution.year}" do %>
+  <%= link_to "Edit", edit_admin_contribution_path(@contribution), class: ts(:button, :primary) %>
+<% end %>
+
+<div class="<%= ts(:card, :wrapper) %>">
+  <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Member</dt>
+      <dd class="mt-1"><%= link_to @contribution.member.name, admin_member_path(@contribution.member), class: "underline" %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Member ID</dt>
+      <dd class="mt-1"><%= @contribution.member.member_id %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Month/Year</dt>
+      <dd class="mt-1"><%= Date::MONTHNAMES[@contribution.month] %> <%= @contribution.year %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Amount</dt>
+      <dd class="mt-1"><%= number_to_currency(@contribution.amount, unit: "RM ") %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Status</dt>
+      <dd class="mt-1">
+        <% if @contribution.paid? %>
+          <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :success) %> <%= ts(:badge, :sm) %>">Paid</span>
+        <% else %>
+          <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :danger) %> <%= ts(:badge, :sm) %>">Missed</span>
+        <% end %>
+      </dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Paid On</dt>
+      <dd class="mt-1"><%= @contribution.paid_on&.strftime("%B %-d, %Y") || "-" %></dd>
+    </div>
+  </dl>
+</div>
+
+<div class="mt-4">
+  <%= link_to "Back to Contributions", admin_contributions_path, class: ts(:button, :ghost) %>
+</div>

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :admin do
       root "dashboard#index"
       resources :members
+      resources :contributions
       resources :announcements, except: [ :show ]
       resource :impersonation, only: [ :create, :destroy ]
       resources :audit_logs, only: [ :index ]

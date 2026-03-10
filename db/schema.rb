@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_10_135002) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_10_141459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -75,6 +75,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_135002) do
     t.index [ "user_id" ], name: "index_audit_logs_on_user_id"
   end
 
+  create_table "contributions", force: :cascade do |t|
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
+    t.integer "month", null: false
+    t.date "paid_on"
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "year", null: false
+    t.index [ "member_id", "month", "year" ], name: "index_contributions_on_member_id_and_month_and_year", unique: true
+    t.index [ "member_id" ], name: "index_contributions_on_member_id"
+  end
+
   create_table "members", force: :cascade do |t|
     t.text "address"
     t.datetime "created_at", null: false
@@ -122,5 +135,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_135002) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "audit_logs", "users"
+  add_foreign_key "contributions", "members"
   add_foreign_key "sessions", "users"
 end

@@ -1,0 +1,4 @@
+<% content_for(:page_title, "New Contribution") %>
+
+<%= render "admin/components/page_header", heading: "New Contribution" %>
+<%= render "admin/contributions/form", contribution: @contribution, members: @members %>
