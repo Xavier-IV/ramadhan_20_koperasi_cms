@@ -32,12 +32,15 @@
             <% end %>
           </td>
           <td class="<%= ts(:table, :td) %>"><%= contribution.paid_on&.strftime("%b %-d, %Y") || "-" %></td>
-          <td class="<%= ts(:table, :td) %> text-right">
-            <%= link_to "View", admin_contribution_path(contribution), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
-            <%= link_to "Edit", edit_admin_contribution_path(contribution), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
-            <%= button_to "Delete", admin_contribution_path(contribution), method: :delete,
-              class: ts(:button, :danger) + " " + ts(:button, :sm),
-              data: { turbo_confirm: "Delete this contribution?" } %>
+          <td class="<%= ts(:table, :td) %>">
+            <div class="flex items-center justify-end gap-1.5">
+              <%= link_to "View", admin_contribution_path(contribution), class: ts(:button, :secondary) + " " + ts(:button, :sm) %>
+              <%= link_to "Edit", edit_admin_contribution_path(contribution), class: ts(:button, :secondary) + " " + ts(:button, :sm) %>
+              <%= button_to "Delete", admin_contribution_path(contribution), method: :delete,
+                class: ts(:button, :danger) + " " + ts(:button, :sm),
+                form: { class: "inline" },
+                data: { turbo_confirm: "Delete this contribution?" } %>
+            </div>
           </td>
         </tr>
       <% end %>
