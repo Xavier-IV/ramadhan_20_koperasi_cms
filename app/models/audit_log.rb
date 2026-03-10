@@ -7,7 +7,7 @@ class AuditLog < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :by_action, ->(action) { where(action: action) if action.present? }
   scope :page, ->(page, per: 25) {
-    page = [page.to_i, 1].max
+    page = [ page.to_i, 1 ].max
     offset((page - 1) * per).limit(per)
   }
 

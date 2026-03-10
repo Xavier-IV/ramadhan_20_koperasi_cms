@@ -41,21 +41,21 @@ namespace :admin do
   end
 
   desc "Grant admin to an existing user"
-  task :grant, [:email] => :environment do |_t, args|
+  task :grant, [ :email ] => :environment do |_t, args|
     user = User.find_by!(email_address: args[:email])
     user.update!(admin: true)
     puts "Admin granted to #{user.email_address}."
   end
 
   desc "Revoke admin from a user"
-  task :revoke, [:email] => :environment do |_t, args|
+  task :revoke, [ :email ] => :environment do |_t, args|
     user = User.find_by!(email_address: args[:email])
     user.update!(admin: false)
     puts "Admin revoked from #{user.email_address}."
   end
 
   desc "Non-interactive admin setup: bin/rails admin:setup[email,password]"
-  task :setup, [:email, :password] => :environment do |_t, args|
+  task :setup, [ :email, :password ] => :environment do |_t, args|
     abort "Usage: bin/rails admin:setup[email,password]" unless args[:email] && args[:password]
 
     user = User.find_or_create_by!(email_address: args[:email]) do |u|
