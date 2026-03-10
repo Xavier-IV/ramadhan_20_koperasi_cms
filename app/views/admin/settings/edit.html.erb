@@ -1,0 +1,47 @@
+<% content_for(:page_title, "Settings") %>
+
+<%= render "admin/components/page_header", heading: "Settings", subtitle: "Manage koperasi details" %>
+
+<%= form_with model: [:admin, @setting], class: ts(:form, :group) do |f| %>
+  <% if @setting.errors.any? %>
+    <div class="<%= ts(:alert, :wrapper) %> <%= ts(:alert, :error) %>">
+      <div>
+        <p class="<%= ts(:alert, :title) %>"><%= pluralize(@setting.errors.count, "error") %> prevented saving:</p>
+        <ul class="<%= ts(:alert, :message) %> list-disc pl-4 mt-1">
+          <% @setting.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="<%= ts(:form, :field) %>">
+    <%= f.label :koperasi_name, class: ts(:form, :label) %>
+    <%= f.text_field :koperasi_name, class: ts(:input, :base), required: true, placeholder: "Koperasi name" %>
+  </div>
+
+  <div class="<%= ts(:form, :field) %>">
+    <%= f.label :registration_number, class: ts(:form, :label) %>
+    <%= f.text_field :registration_number, class: ts(:input, :base), placeholder: "e.g. KWB-2019-001" %>
+  </div>
+
+  <div class="<%= ts(:form, :field) %>">
+    <%= f.label :phone, class: ts(:form, :label) %>
+    <%= f.text_field :phone, class: ts(:input, :base), placeholder: "e.g. 03-2345 6789" %>
+  </div>
+
+  <div class="<%= ts(:form, :field) %>">
+    <%= f.label :email, class: ts(:form, :label) %>
+    <%= f.email_field :email, class: ts(:input, :base), placeholder: "e.g. admin@kwb.org.my" %>
+  </div>
+
+  <div class="<%= ts(:form, :field) %>">
+    <%= f.label :address, class: ts(:form, :label) %>
+    <%= f.text_area :address, class: ts(:input, :base), rows: 3, placeholder: "Full address" %>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= f.submit "Save Settings", class: ts(:button, :primary) %>
+  </div>
+<% end %>
