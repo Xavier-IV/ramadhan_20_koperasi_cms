@@ -1,0 +1,46 @@
+<% content_for(:page_title, "Members") %>
+
+<%= render "admin/components/page_header", heading: "Members", subtitle: "Manage cooperative members" do %>
+  <%= link_to "New Member", new_admin_member_path, class: ts(:button, :primary) %>
+<% end %>
+
+<% if @members.any? %>
+  <table class="<%= ts(:table, :wrapper) %>">
+    <thead class="<%= ts(:table, :head) %>">
+      <tr>
+        <th class="<%= ts(:table, :th) %>">Member ID</th>
+        <th class="<%= ts(:table, :th) %>">Name</th>
+        <th class="<%= ts(:table, :th) %>">IC Number</th>
+        <th class="<%= ts(:table, :th) %>">Status</th>
+        <th class="<%= ts(:table, :th) %>">Join Date</th>
+        <th class="<%= ts(:table, :th) %>"></th>
+      </tr>
+    </thead>
+    <tbody class="<%= ts(:table, :body) %>">
+      <% @members.each do |member| %>
+        <tr class="<%= ts(:table, :tr) %> <%= ts(:table, :tr_hover) %>">
+          <td class="<%= ts(:table, :td) %>"><%= member.member_id %></td>
+          <td class="<%= ts(:table, :td) %>"><%= member.name %></td>
+          <td class="<%= ts(:table, :td) %>"><%= member.ic_number %></td>
+          <td class="<%= ts(:table, :td) %>">
+            <% if member.active? %>
+              <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :success) %> <%= ts(:badge, :sm) %>">Active</span>
+            <% else %>
+              <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :default) %> <%= ts(:badge, :sm) %>">Inactive</span>
+            <% end %>
+          </td>
+          <td class="<%= ts(:table, :td) %>"><%= member.join_date.strftime("%b %-d, %Y") %></td>
+          <td class="<%= ts(:table, :td) %> text-right">
+            <%= link_to "View", admin_member_path(member), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
+            <%= link_to "Edit", edit_admin_member_path(member), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
+            <%= button_to "Delete", admin_member_path(member), method: :delete,
+              class: ts(:button, :danger) + " " + ts(:button, :sm),
+              data: { turbo_confirm: "Delete this member?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <%= render "admin/components/empty_state", message: "No members yet", subtext: "Add your first cooperative member." %>
+<% end %>
