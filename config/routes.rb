@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :announcements, except: [ :show ]
       resource :impersonation, only: [ :create, :destroy ]
       resources :audit_logs, only: [ :index ]
+      resource :setting, only: [ :edit, :update ]
     end
   resource :session
   resources :passwords, param: :token
