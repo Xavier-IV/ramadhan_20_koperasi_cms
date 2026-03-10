@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   root "pages#home"
     namespace :admin do
       root "dashboard#index"
-      resources :announcements, except: [:show]
-      resource :impersonation, only: [:create, :destroy]
-      resources :audit_logs, only: [:index]
+      resources :announcements, except: [ :show ]
+      resource :impersonation, only: [ :create, :destroy ]
+      resources :audit_logs, only: [ :index ]
     end
   resource :session
   resources :passwords, param: :token

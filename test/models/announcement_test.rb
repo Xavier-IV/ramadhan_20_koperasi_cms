@@ -24,8 +24,11 @@ class AnnouncementTest < ActiveSupport::TestCase
   end
 
   test "ordered scope sorts by created_at desc" do
-    result = Announcement.ordered
-    assert_equal result, result.sort_by(&:created_at).reverse
+    old = Announcement.create!(title: "Old", kind: :info, created_at: 2.days.ago)
+    recent = Announcement.create!(title: "Recent", kind: :info, created_at: 1.day.ago)
+
+    result = Announcement.ordered.to_a
+    assert result.index(recent) < result.index(old)
   end
 
   test "kind enum works" do

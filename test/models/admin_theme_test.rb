@@ -38,7 +38,7 @@ class AdminThemeTest < ActiveSupport::TestCase
       if value.is_a?(Hash)
         deep_keys(value, full_key)
       else
-        [full_key]
+        [ full_key ]
       end
     end
   end

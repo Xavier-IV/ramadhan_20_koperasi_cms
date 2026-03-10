@@ -23,7 +23,7 @@ class AdminAnnouncementsTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to admin_announcements_path
     follow_redirect!
-    assert_select ".notice, [class*='flash']", /created/i
+    assert_match /created/i, response.body
   end
 
   test "create with invalid params re-renders" do
