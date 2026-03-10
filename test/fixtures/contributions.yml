@@ -1,0 +1,44 @@
+ahmad_jan_paid:
+  member: ahmad
+  amount: 50.00
+  month: 1
+  year: 2025
+  paid_on: 2025-01-10
+  status: 0
+
+ahmad_feb_paid:
+  member: ahmad
+  amount: 50.00
+  month: 2
+  year: 2025
+  paid_on: 2025-02-10
+  status: 0
+
+siti_jan_paid:
+  member: siti
+  amount: 50.00
+  month: 1
+  year: 2025
+  paid_on: 2025-01-10
+  status: 0
+
+zainal_jan_missed:
+  member: inactive_zainal
+  amount: 50.00
+  month: 1
+  year: 2025
+  status: 1
+
+zainal_feb_missed:
+  member: inactive_zainal
+  amount: 50.00
+  month: 2
+  year: 2025
+  status: 1
+
+zainal_mar_missed:
+  member: inactive_zainal
+  amount: 50.00
+  month: 3
+  year: 2025
+  status: 1
