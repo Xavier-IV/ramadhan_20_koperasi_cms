@@ -21,6 +21,7 @@ Ramadhan 20 Koperasi Cms -- a CMS app scaffolded from the YouTube channel cms_te
 - **User Impersonation** (`/admin/impersonation`) -- admins can view app as another user. Violet banner when active.
 - **Dark Mode** -- toggle in topbar, localStorage persistence, CSS custom properties. Disabled for already-dark themes.
 - **Image Upload Component** -- reusable partial `render "admin/components/image_upload", name: "model[images][]"`
+- **Settings** (`/admin/setting/edit`) -- singleton resource for koperasi details (name, registration number, phone, email, address)
 
 ## Tech Stack
 
@@ -55,6 +56,8 @@ DELETE /admin/announcements/:id admin/announcements#destroy
 GET    /admin/audit_logs       admin/audit_logs#index      (admin layout)
 POST   /admin/impersonation    admin/impersonations#create (start impersonating)
 DELETE /admin/impersonation    admin/impersonations#destroy (stop impersonating)
+GET    /admin/setting/edit      admin/settings#edit          (admin layout)
+PATCH  /admin/setting           admin/settings#update        (admin layout)
 ```
 
 ## Key Files
