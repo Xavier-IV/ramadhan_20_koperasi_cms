@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_10_132144) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_10_134934) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -82,6 +82,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_132144) do
     t.string "user_agent"
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.text "address"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "koperasi_name", default: "Koperasi Warga Bahagia", null: false
+    t.string "phone"
+    t.string "registration_number"
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
