@@ -57,3 +57,49 @@ members_data = [
     join_date: Date.parse("2022-01-01"), status: 1, created_at: Time.current, updated_at: Time.current }
 ]
 Member.insert_all!(members_data)
+
+# Contributions - 3 months: Jan/Feb/Mar 2025
+# Pattern: Ahmad/Siti/Chong/Faridah/Lim paid all 3; Muthu missed Feb;
+#          Nur missed Jan+Feb (IN ARREARS); Tan paid Jan only (missed Feb+Mar);
+#          Rajesh missed Jan+Feb (IN ARREARS); Zainal missed all 3
+contribution_amount = 50.00
+contribution_rows = []
+
+members_paid_all    = %w[KWB-001 KWB-002 KWB-003 KWB-008 KWB-009]
+members_missed_feb  = %w[KWB-004]
+members_in_arrears1 = %w[KWB-005]
+members_in_arrears2 = %w[KWB-007]
+members_partial     = %w[KWB-006]
+members_inactive    = %w[KWB-010]
+
+[
+  [ 1, 2025 ], [ 2, 2025 ], [ 3, 2025 ]
+].each do |month, year|
+  Member.find_each do |member|
+    mid = member.member_id
+    status = :paid
+    if members_missed_feb.include?(mid) && month == 2
+      status = :missed
+    elsif (members_in_arrears1.include?(mid) || members_in_arrears2.include?(mid)) && (month == 1 || month == 2)
+      status = :missed
+    elsif members_partial.include?(mid) && month != 1
+      status = :missed
+    elsif members_inactive.include?(mid)
+      status = :missed
+    end
+
+    paid_on = status == :paid ? Date.new(year, month, 10) : nil
+    contribution_rows << {
+      member_id: member.id,
+      amount: contribution_amount,
+      month: month,
+      year: year,
+      paid_on: paid_on,
+      status: Contribution.statuses[status],
+      created_at: Time.current,
+      updated_at: Time.current
+    }
+  end
+end
+# insert_all! bypasses callbacks - no audit log entries in seeds
+Contribution.insert_all!(contribution_rows)
