@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_10_134934) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_10_135002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -73,6 +73,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_134934) do
     t.index [ "auditable_type", "auditable_id" ], name: "index_audit_logs_on_auditable_type_and_auditable_id"
     t.index [ "created_at" ], name: "index_audit_logs_on_created_at"
     t.index [ "user_id" ], name: "index_audit_logs_on_user_id"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.text "address"
+    t.datetime "created_at", null: false
+    t.string "ic_number", null: false
+    t.date "join_date", null: false
+    t.string "member_id", null: false
+    t.string "name", null: false
+    t.string "phone"
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.string "uuid", null: false
+    t.index [ "ic_number" ], name: "index_members_on_ic_number", unique: true
+    t.index [ "member_id" ], name: "index_members_on_member_id", unique: true
+    t.index [ "uuid" ], name: "index_members_on_uuid", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|
