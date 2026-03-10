@@ -1,0 +1,72 @@
+<% content_for(:page_title, "Audit Log") %>
+
+<%= render "admin/components/page_header", heading: "Audit Log", subtitle: "Track all admin actions" %>
+
+<%# Filter toolbar %>
+<div class="<%= ts(:toolbar, :wrapper) %>">
+  <div class="<%= ts(:toolbar, :filter_group) %>">
+    <% %w[all created updated deleted].each do |action| %>
+      <% active = (action == "all" && params[:action_filter].blank?) || params[:action_filter] == action %>
+      <%= link_to action.titleize,
+        admin_audit_logs_path(action_filter: action == "all" ? nil : action),
+        class: active ? ts(:button, :primary) + " " + ts(:button, :sm) : ts(:button, :secondary) + " " + ts(:button, :sm) %>
+    <% end %>
+  </div>
+</div>
+
+<% if @audit_logs.any? %>
+  <table class="<%= ts(:table, :wrapper) %>">
+    <thead class="<%= ts(:table, :head) %>">
+      <tr>
+        <th class="<%= ts(:table, :th) %>">Time</th>
+        <th class="<%= ts(:table, :th) %>">User</th>
+        <th class="<%= ts(:table, :th) %>">Action</th>
+        <th class="<%= ts(:table, :th) %>">Resource</th>
+      </tr>
+    </thead>
+    <tbody class="<%= ts(:table, :body) %>">
+      <% @audit_logs.each do |log| %>
+        <tr class="<%= ts(:table, :tr) %>">
+          <td class="<%= ts(:table, :td) %>">
+            <span title="<%= log.created_at.iso8601 %>"><%= time_ago_in_words(log.created_at) %> ago</span>
+          </td>
+          <td class="<%= ts(:table, :td) %>"><%= log.user.email_address %></td>
+          <td class="<%= ts(:table, :td) %>">
+            <% badge_type = case log.action
+               when "created" then :success
+               when "updated" then :info
+               when "deleted" then :error
+               end %>
+            <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, badge_type) %> <%= ts(:badge, :sm) %>">
+              <%= log.action %>
+            </span>
+          </td>
+          <td class="<%= ts(:table, :td) %>">
+            <span class="font-medium"><%= log.auditable_type %></span>
+            <span class="opacity-50">#<%= log.auditable_id %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%# Pagination %>
+  <% total_pages = (@total_count / 25.0).ceil %>
+  <% if total_pages > 1 %>
+    <div class="<%= ts(:pagination, :wrapper) %>">
+      <div class="<%= ts(:pagination, :info) %>"><%= @total_count %> entries</div>
+      <div class="flex items-center gap-1">
+        <% if @current_page > 1 %>
+          <%= link_to "← Prev", admin_audit_logs_path(page: @current_page - 1, action_filter: params[:action_filter]),
+            class: ts(:pagination, :item) %>
+        <% end %>
+        <% if @current_page < total_pages %>
+          <%= link_to "Next →", admin_audit_logs_path(page: @current_page + 1, action_filter: params[:action_filter]),
+            class: ts(:pagination, :item) %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <%= render "admin/components/empty_state", message: "No audit log entries yet", subtext: "Actions will be logged as they happen." %>
+<% end %>

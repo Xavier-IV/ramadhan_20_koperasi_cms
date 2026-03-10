@@ -1,0 +1,67 @@
+<%# locals: (name:, label: nil, hint: nil, error_message: nil, required: false, disabled: false, multiple: false, accept: "image/*", existing: [], max_size_mb: 10) %>
+<div class="<%= ts(:form, :field) %>"
+     data-controller="image-upload"
+     data-image-upload-multiple-value="<%= multiple %>"
+     data-image-upload-accept-value="<%= accept %>"
+     data-image-upload-max-size-value="<%= max_size_mb %>"
+     data-image-upload-active-class-value="<%= ts(:image_upload, :dropzone_active) %>"
+     data-image-upload-item-class-value="<%= ts(:image_upload, :preview_item) %>"
+     data-image-upload-image-class-value="<%= ts(:image_upload, :preview_image) %>"
+     data-image-upload-remove-class-value="<%= ts(:image_upload, :preview_remove) %>"
+     data-image-upload-remove-icon-value="<%= ERB::Util.html_escape(heroicon(:x_mark, classes: 'w-3.5 h-3.5').to_str) %>">
+
+  <% if label %>
+    <label class="<%= ts(:form, :label) %>">
+      <%= label %><% if required %><span class="<%= ts(:form, :required) %>">*</span><% end %>
+    </label>
+  <% end %>
+
+  <div class="<%= ts(:image_upload, :wrapper) %>">
+    <%# Dropzone %>
+    <div class="<%= ts(:image_upload, :dropzone) %> <%= ts(:image_upload, :error) if error_message %> <%= ts(:image_upload, :disabled) if disabled %>"
+         data-image-upload-target="dropzone"
+         data-action="click->image-upload#openPicker dragover->image-upload#dragOver dragenter->image-upload#dragEnter dragleave->image-upload#dragLeave drop->image-upload#drop">
+      <div class="<%= ts(:image_upload, :icon) %>">
+        <%= heroicon(:cloud_arrow_up, classes: "w-8 h-8") %>
+      </div>
+      <p class="<%= ts(:image_upload, :text) %>">
+        Drop <%= multiple ? "files" : "a file" %> here or <span class="underline underline-offset-2">browse</span>
+      </p>
+      <p class="<%= ts(:image_upload, :hint) %>"><%= accept.gsub("*", "all") %> up to <%= max_size_mb %>MB</p>
+    </div>
+
+    <%# Hidden file input %>
+    <input type="file"
+           name="<%= name %>"
+           accept="<%= accept %>"
+           <% if multiple %>multiple<% end %>
+           <% if disabled %>disabled<% end %>
+           class="hidden"
+           data-image-upload-target="input"
+           data-action="change->image-upload#handleFiles">
+
+    <%# Preview grid %>
+    <div class="<%= ts(:image_upload, :preview_grid) %>" data-image-upload-target="previewGrid">
+      <%# Existing attachments %>
+      <% existing.each do |attachment| %>
+        <div class="<%= ts(:image_upload, :preview_item) %>" data-image-upload-target="existingItem">
+          <%= image_tag(attachment.representation(resize_to_limit: [300, 300]), class: ts(:image_upload, :preview_image)) %>
+          <button type="button"
+                  class="<%= ts(:image_upload, :preview_remove) %>"
+                  data-action="click->image-upload#removeExisting"
+                  aria-label="Remove">
+            <%= heroicon(:x_mark, classes: "w-3.5 h-3.5") %>
+          </button>
+          <input type="hidden" name="purge_attachments[]" value="<%= attachment.signed_id %>" disabled>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if hint && !error_message %>
+    <p class="<%= ts(:form, :hint) %>"><%= hint %></p>
+  <% end %>
+  <% if error_message %>
+    <p class="<%= ts(:form, :error) %>"><%= error_message %></p>
+  <% end %>
+</div>

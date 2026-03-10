@@ -1,0 +1,10 @@
+<%# locals: (number:, title:, description: nil) %>
+<div class="<%= ts(:step, :wrapper) %>">
+  <span class="<%= ts(:step, :number) %>"><%= number %></span>
+  <div>
+    <p class="<%= ts(:step, :title) %>"><%= title %></p>
+    <% if description %>
+      <p class="<%= ts(:step, :description) %>"><%= description %></p>
+    <% end %>
+  </div>
+</div>

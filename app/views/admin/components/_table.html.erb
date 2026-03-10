@@ -1,0 +1,6 @@
+<%# locals: (striped: false, hover: true) %>
+<div class="<%= ts(:table, :wrapper) %>">
+  <table data-striped="<%= striped %>" data-hover="<%= hover %>">
+    <%= yield %>
+  </table>
+</div>

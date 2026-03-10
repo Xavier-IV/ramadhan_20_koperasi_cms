@@ -1,0 +1,43 @@
+<%# locals: (name:, label: nil, options:, selected: nil, placeholder: nil, hint: nil, error_message: nil, required: false, disabled: false, include_blank: false) %>
+<% field_id = name.to_s.gsub(/[\[\]]/, "_").gsub(/__+/, "_").chomp("_") %>
+<div class="<%= ts(:form, :field) %>">
+  <% if label %>
+    <label for="<%= field_id %>" class="<%= ts(:form, :label) %>">
+      <%= label %>
+      <% if required %>
+        <span class="<%= ts(:form, :required) %>">*</span>
+      <% end %>
+    </label>
+  <% end %>
+  <div class="<%= ts(:select, :wrapper) %>">
+    <select
+      name="<%= name %>"
+      id="<%= field_id %>"
+      class="<%= "#{ts(:select, :base)} #{error_message ? ts(:select, :error) : ''} #{disabled ? ts(:select, :disabled) : ''}".strip %>"
+      <%= "required" if required %>
+      <%= "disabled" if disabled %>
+    >
+      <% if placeholder %>
+        <option value="" disabled <%= "selected" unless selected %>><%= placeholder %></option>
+      <% end %>
+      <% if include_blank %>
+        <option value=""></option>
+      <% end %>
+      <% options.each do |option| %>
+        <% if option.is_a?(Array) %>
+          <option value="<%= option[1] %>" <%= "selected" if selected.to_s == option[1].to_s %>><%= option[0] %></option>
+        <% else %>
+          <option value="<%= option %>" <%= "selected" if selected.to_s == option.to_s %>><%= option %></option>
+        <% end %>
+      <% end %>
+    </select>
+    <div class="<%= ts(:select, :icon) %>">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+  </div>
+  <% if error_message %>
+    <p class="<%= ts(:form, :error) %>"><%= error_message %></p>
+  <% elsif hint %>
+    <p class="<%= ts(:form, :hint) %>"><%= hint %></p>
+  <% end %>
+</div>

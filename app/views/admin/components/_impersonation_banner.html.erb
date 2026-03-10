@@ -1,0 +1,10 @@
+<% if impersonating? %>
+  <div class="<%= ts(:impersonation, :banner) %>">
+    <p class="<%= ts(:impersonation, :text) %>">
+      <%= heroicon(:eye, classes: "w-3.5 h-3.5 inline-block mr-1") %>
+      Viewing as <strong><%= current_user.email_address %></strong>
+    </p>
+    <%= button_to "Stop impersonating", admin_impersonation_path, method: :delete,
+      class: ts(:impersonation, :stop_button) %>
+  </div>
+<% end %>

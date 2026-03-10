@@ -1,0 +1,12 @@
+<%# locals: (items:, dividers: true) %>
+<div class="<%= ts(:key_value, :wrapper) %>">
+  <% items.each_with_index do |item, index| %>
+    <% if dividers && index > 0 %>
+      <div class="<%= ts(:key_value, :divider) %>"></div>
+    <% end %>
+    <div class="<%= ts(:key_value, :group) %>">
+      <span class="<%= ts(:key_value, :label) %>"><%= item[:label] %></span>
+      <span class="<%= ts(:key_value, :value) %>"><%= item[:value] %></span>
+    </div>
+  <% end %>
+</div>

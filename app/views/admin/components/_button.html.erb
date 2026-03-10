@@ -1,0 +1,12 @@
+<%# locals: (text: nil, variant: "primary", size: "md", tag: "button", href: nil, disabled: false, type: "button", **html_options) %>
+<%
+  classes = [
+    ts(:button, disabled ? :disabled : variant.to_sym),
+    ts(:button, size.to_sym)
+  ].join(" ")
+%>
+<% if tag == "a" %>
+  <a href="<%= href %>" class="<%= classes %>" <%= 'aria-disabled="true"' if disabled %> <% html_options.each do |k, v| %><%= k %>="<%= v %>" <% end %>><%= text || yield %></a>
+<% else %>
+  <button type="<%= type %>" class="<%= classes %>" <%= "disabled" if disabled %> <% html_options.each do |k, v| %><%= k %>="<%= v %>" <% end %>><%= text || yield %></button>
+<% end %>

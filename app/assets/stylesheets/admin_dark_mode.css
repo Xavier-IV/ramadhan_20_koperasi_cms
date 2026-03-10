@@ -1,0 +1,83 @@
+/* Dark mode overrides — applied when html.dark is present */
+/* Uses data-dark attributes on layout sections for targeted styling */
+
+html.dark [data-dark="sidebar"] {
+  background-color: var(--dark-sidebar-bg);
+  border-color: var(--dark-sidebar-border);
+  color: var(--dark-sidebar-text);
+}
+
+html.dark [data-dark="sidebar"] a,
+html.dark [data-dark="sidebar"] span,
+html.dark [data-dark="sidebar"] p,
+html.dark [data-dark="sidebar"] button {
+  color: inherit;
+}
+
+html.dark [data-dark="sidebar"] a:hover,
+html.dark [data-dark="sidebar"] button:hover {
+  color: var(--dark-sidebar-text-active);
+}
+
+html.dark [data-dark="sidebar"] .active-nav {
+  color: var(--dark-sidebar-text-active);
+}
+
+html.dark [data-dark="topbar"] {
+  background-color: var(--dark-topbar-bg);
+  border-color: var(--dark-topbar-border);
+  color: var(--dark-topbar-text);
+}
+
+html.dark [data-dark="topbar"] h1,
+html.dark [data-dark="topbar"] time,
+html.dark [data-dark="topbar"] button,
+html.dark [data-dark="topbar"] svg {
+  color: var(--dark-topbar-text);
+}
+
+html.dark [data-dark="content"] {
+  background-color: var(--dark-content-bg);
+  color: var(--dark-content-text);
+}
+
+/* Cards and panels */
+html.dark [data-dark="content"] .card,
+html.dark [data-dark="content"] [class*="border-b"],
+html.dark [data-dark="content"] [class*="bg-white"] {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-card-border);
+}
+
+/* Tables */
+html.dark [data-dark="content"] table {
+  color: var(--dark-table-text);
+}
+
+html.dark [data-dark="content"] table th {
+  color: var(--dark-table-text);
+  border-color: var(--dark-table-border);
+}
+
+html.dark [data-dark="content"] table td {
+  color: var(--dark-table-text);
+  border-color: var(--dark-table-border);
+}
+
+html.dark [data-dark="content"] table tr {
+  border-color: var(--dark-table-border);
+}
+
+/* Forms */
+html.dark [data-dark="content"] input,
+html.dark [data-dark="content"] textarea,
+html.dark [data-dark="content"] select {
+  background-color: var(--dark-input-bg);
+  border-color: var(--dark-input-border);
+  color: var(--dark-input-text);
+}
+
+/* Override body background */
+html.dark body {
+  background-color: var(--dark-body-bg);
+}

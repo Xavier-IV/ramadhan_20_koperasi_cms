@@ -1,0 +1,7 @@
+<%# locals: (title:, description: nil) %>
+<div class="<%= ts(:card, :header) %>">
+  <h3 class="<%= ts(:card, :title) %>"><%= title %></h3>
+  <% if description %>
+    <p class="<%= ts(:card, :description) %>"><%= description %></p>
+  <% end %>
+</div>

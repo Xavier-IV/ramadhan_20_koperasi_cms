@@ -1,0 +1,16 @@
+<%# locals: (fields:, hover: true) %>
+<div class="<%= [ts(:stacked_list, :item), hover ? ts(:stacked_list, :item_hover) : nil].compact.join(' ') %>">
+  <div class="space-y-1.5">
+    <% fields.each do |field| %>
+      <div>
+        <span class="<%= ts(:stacked_list, :label) %>"><%= field[:label] %></span>
+        <span class="<%= ts(:stacked_list, :value) %> ml-2"><%= field[:value] %></span>
+      </div>
+    <% end %>
+  </div>
+  <% if content = yield rescue nil %>
+    <div class="<%= ts(:stacked_list, :actions) %>">
+      <%= content %>
+    </div>
+  <% end %>
+</div>

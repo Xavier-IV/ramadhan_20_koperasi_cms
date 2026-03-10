@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+echo "==> Running pre-deploy checks..."
+bin/rubocop --autocorrect
+bin/rails test
+
+echo "==> Deploying to Railway..."
+railway up --detach
+
+echo "==> Deploy triggered. Check status with: railway logs"

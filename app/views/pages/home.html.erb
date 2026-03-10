@@ -1,0 +1,15 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="text-center">
+    <h1 class="text-4xl font-bold text-gray-900"><%= Rails.application.class.module_parent_name.titleize %></h1>
+    <p class="mt-4 text-lg text-gray-600">Your CMS is ready.</p>
+    <div class="mt-8 flex gap-4 justify-center">
+      <% if authenticated? %>
+        <%= link_to "Admin Dashboard", admin_root_path,
+          class: "inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700" %>
+      <% else %>
+        <%= link_to "Sign In", new_session_path,
+          class: "inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700" %>
+      <% end %>
+    </div>
+  </div>
+</div>

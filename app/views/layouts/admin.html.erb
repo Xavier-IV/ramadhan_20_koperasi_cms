@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for(:title) || "Admin" %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <script>if(localStorage.getItem("darkMode")==="true")document.documentElement.classList.add("dark")</script>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :admin_dark_mode, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <style>
+      :root {
+        --trix-toolbar-bg: <%= ts(:rich_text, :toolbar_bg) %>;
+        --trix-border: <%= ts(:rich_text, :toolbar_border) %>;
+        --trix-btn-color: <%= ts(:rich_text, :btn_color) %>;
+        --trix-btn-hover-bg: <%= ts(:rich_text, :btn_hover_bg) %>;
+        --trix-btn-active-bg: <%= ts(:rich_text, :btn_active_bg) %>;
+        --trix-btn-active-color: <%= ts(:rich_text, :btn_active_color) %>;
+        --trix-editor-bg: <%= ts(:rich_text, :editor_bg) %>;
+        --trix-editor-text: <%= ts(:rich_text, :editor_text) %>;
+        --trix-focus: <%= ts(:rich_text, :editor_focus) %>;
+        --trix-content-blockquote: <%= ts(:rich_text, :content_blockquote) %>;
+        --trix-content-code-bg: <%= ts(:rich_text, :content_code_bg) %>;
+      <% if ts(:dark_mode, :enabled) == "true" %>
+        --dark-body-bg: <%= ts(:dark_mode, :body_bg) %>;
+        --dark-sidebar-bg: <%= ts(:dark_mode, :sidebar_bg) %>;
+        --dark-sidebar-border: <%= ts(:dark_mode, :sidebar_border) %>;
+        --dark-sidebar-text: <%= ts(:dark_mode, :sidebar_text) %>;
+        --dark-sidebar-text-active: <%= ts(:dark_mode, :sidebar_text_active) %>;
+        --dark-topbar-bg: <%= ts(:dark_mode, :topbar_bg) %>;
+        --dark-topbar-border: <%= ts(:dark_mode, :topbar_border) %>;
+        --dark-topbar-text: <%= ts(:dark_mode, :topbar_text) %>;
+        --dark-content-bg: <%= ts(:dark_mode, :content_bg) %>;
+        --dark-content-text: <%= ts(:dark_mode, :content_text) %>;
+        --dark-card-bg: <%= ts(:dark_mode, :card_bg) %>;
+        --dark-card-border: <%= ts(:dark_mode, :card_border) %>;
+        --dark-table-border: <%= ts(:dark_mode, :table_border) %>;
+        --dark-table-text: <%= ts(:dark_mode, :table_text) %>;
+        --dark-input-bg: <%= ts(:dark_mode, :input_bg) %>;
+        --dark-input-border: <%= ts(:dark_mode, :input_border) %>;
+        --dark-input-text: <%= ts(:dark_mode, :input_text) %>;
+      <% end %>
+      }
+    </style>
+  </head>
+
+  <body class="<%= ts(:layout, :body) %>" data-controller="admin-sidebar" data-action="keydown@window->admin-sidebar#keydown">
+    <div class="flex h-screen">
+      <!-- Mobile overlay -->
+      <div class="lg:hidden fixed inset-0 z-40 hidden <%= ts(:layout, :overlay) %>"
+           data-admin-sidebar-target="overlay"
+           data-action="click->admin-sidebar#close"></div>
+
+      <!-- Sidebar -->
+      <aside class="fixed lg:static inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-150 <%= ts(:layout, :sidebar) %>"
+             data-admin-sidebar-target="sidebar"
+             data-dark="sidebar">
+
+        <!-- Brand -->
+        <div class="<%= ts(:layout, :brand_wrapper) %>">
+          <p class="<%= ts(:layout, :brand) %>"><%= Rails.application.class.module_parent_name.titleize %></p>
+        </div>
+
+        <% if ts(:layout, :sidebar_divider).present? %>
+          <div class="<%= ts(:layout, :sidebar_divider) %>"></div>
+        <% end %>
+
+        <!-- Nav -->
+        <nav class="<%= ts(:layout, :nav) %>">
+          <div>
+            <%= admin_nav_link "Dashboard", admin_root_path, icon: :dashboard %>
+            <%= admin_nav_link "Announcements", admin_announcements_path, icon: :megaphone %>
+            <%= admin_nav_link "Audit Log", admin_audit_logs_path, icon: :clock %>
+          </div>
+        </nav>
+
+        <% if ts(:layout, :sidebar_divider).present? %>
+          <div class="<%= ts(:layout, :sidebar_divider) %>"></div>
+        <% end %>
+
+        <!-- User -->
+        <div class="<%= ts(:layout, :user_wrapper) %>">
+          <% if ts(:layout, :user_avatar) %>
+            <div class="<%= ts(:layout, :user_avatar) %>">
+              <%= current_user&.email_address&.first&.upcase %>
+            </div>
+          <% end %>
+          <p class="<%= ts(:layout, :user_email) %>"><%= current_user&.email_address %></p>
+          <%= button_to session_path, method: :delete,
+            class: ts(:layout, :signout),
+            data: { turbo_confirm: "Sign out?" } do %>
+            <%= heroicon(:arrow_right_start_on_rectangle, classes: "w-3.5 h-3.5") %>
+            sign out
+          <% end %>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <div class="flex-1 flex flex-col min-w-0">
+
+        <!-- Top bar -->
+        <header class="<%= ts(:layout, :topbar) %>" data-dark="topbar">
+          <div class="flex items-center gap-3">
+            <button data-action="admin-sidebar#toggle" class="<%= ts(:layout, :menu_icon) %>">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+            </button>
+            <h1 class="<%= ts(:layout, :topbar_title) %>"><%= content_for(:page_title) || "Dashboard" %></h1>
+          </div>
+          <div class="flex items-center gap-4">
+            <% if ts(:dark_mode, :enabled) == "true" %>
+              <div data-controller="dark-mode">
+                <button data-action="dark-mode#toggle" class="p-1.5 opacity-50 hover:opacity-100 transition-opacity">
+                  <span data-dark-mode-target="icon"></span>
+                </button>
+              </div>
+            <% end %>
+            <time class="<%= ts(:layout, :topbar_date) %>"><%= Date.current.strftime("%B %-d, %Y") %></time>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <main class="<%= ts(:layout, :content) %>" data-dark="content">
+          <%= render "admin/components/announcement_banner" %>
+          <%= render "admin/components/impersonation_banner" %>
+          <% if notice %>
+            <%= render "admin/components/flash", type: "notice", message: notice %>
+          <% end %>
+          <% if alert %>
+            <%= render "admin/components/flash", type: "alert", message: alert %>
+          <% end %>
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

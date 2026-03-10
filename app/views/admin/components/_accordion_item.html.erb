@@ -1,0 +1,15 @@
+<%# locals: (title:, open: false) %>
+<% item_id = "accordion-item-#{title.parameterize}-#{SecureRandom.hex(4)}" %>
+<div class="<%= ts(:accordion, :item) %>" data-accordion-target="item">
+  <button type="button"
+    class="<%= ts(:accordion, :trigger) %>"
+    aria-expanded="<%= open %>"
+    aria-controls="<%= item_id %>"
+    data-action="click->accordion#toggle">
+    <span><%= title %></span>
+    <svg class="<%= ts(:accordion, :icon) %> <%= 'rotate-180' if open %>" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <div id="<%= item_id %>" class="<%= ts(:accordion, :content) %> <%= 'hidden' unless open %>">
+    <%= yield %>
+  </div>
+</div>

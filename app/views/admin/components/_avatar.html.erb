@@ -1,0 +1,8 @@
+<%# locals: (name:, src: nil, size: "md") %>
+<div class="<%= [ts(:avatar, :wrapper), ts(:avatar, size.to_sym)].join(" ") %>">
+  <% if src %>
+    <img src="<%= src %>" alt="<%= name %>" class="<%= ts(:avatar, :image) %>" />
+  <% else %>
+    <%= name.split.map { |w| w[0] }.first(2).join.upcase %>
+  <% end %>
+</div>

@@ -1,0 +1,8 @@
+<%# locals: (columns:) %>
+<thead class="<%= ts(:table, :head) %>">
+  <tr>
+    <% columns.each do |column| %>
+      <th class="<%= ts(:table, :th) %>"><%= column %></th>
+    <% end %>
+  </tr>
+</thead>

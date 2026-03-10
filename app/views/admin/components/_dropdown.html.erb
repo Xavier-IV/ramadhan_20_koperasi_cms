@@ -1,0 +1,10 @@
+<%# locals: (label: "Options", variant: "secondary") %>
+<div class="<%= ts(:dropdown, :wrapper) %>" data-controller="dropdown">
+  <button type="button" class="<%= [ts(:button, variant.to_sym), ts(:button, :md)].join(' ') %>" data-action="click->dropdown#toggle">
+    <%= label %>
+    <svg class="inline-block ml-1 -mr-1" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <div class="<%= ts(:dropdown, :menu) %> hidden" data-dropdown-target="menu" data-action="keydown.esc@window->dropdown#close click@window->dropdown#closeOnClickOutside">
+    <%= yield %>
+  </div>
+</div>

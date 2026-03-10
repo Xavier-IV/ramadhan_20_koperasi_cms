@@ -1,0 +1,18 @@
+<%# locals: (tabs:, active: nil) %>
+<% active ||= tabs.first[:id] %>
+<div class="<%= ts(:tabs, :wrapper) %>" data-controller="tabs">
+  <div class="<%= ts(:tabs, :list) %>" role="tablist">
+    <% tabs.each do |tab| %>
+      <button type="button"
+        role="tab"
+        class="<%= tab[:id] == active ? ts(:tabs, :tab_active) : ts(:tabs, :tab) %>"
+        aria-selected="<%= tab[:id] == active %>"
+        data-tabs-target="tab"
+        data-tab-id="<%= tab[:id] %>"
+        data-action="click->tabs#select">
+        <%= tab[:label] %>
+      </button>
+    <% end %>
+  </div>
+  <%= yield %>
+</div>

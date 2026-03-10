@@ -1,0 +1,45 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+# Worktree isolation: when running in a git worktree, append the worktree
+# directory name as a suffix so each worktree gets its own databases.
+# Main repo uses no suffix. Set WORKTREE_DB_SUFFIX env var to override.
+<% worktree_suffix = ENV.fetch("WORKTREE_DB_SUFFIX") {
+  git_dir = `git rev-parse --git-dir 2>/dev/null`.strip
+  if git_dir.include?(".git/worktrees/")
+    "_wt_#{File.basename(git_dir)}"
+  else
+    ""
+  end
+} %>
+
+development:
+  <<: *default
+  database: ramadhan_20_koperasi_cms_development<%= worktree_suffix %>
+
+test:
+  <<: *default
+  database: ramadhan_20_koperasi_cms_test<%= worktree_suffix %>
+
+production:
+  primary: &primary_production
+    <<: *default
+    host: <%= ENV.fetch("PGHOST", "localhost") %>
+    port: <%= ENV.fetch("PGPORT", 5432) %>
+    username: <%= ENV["PGUSER"] %>
+    password: <%= ENV["PGPASSWORD"] %>
+    database: ramadhan_20_koperasi_cms_production
+  cache:
+    <<: *primary_production
+    database: ramadhan_20_koperasi_cms_production_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: ramadhan_20_koperasi_cms_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: ramadhan_20_koperasi_cms_production_cable
+    migrations_paths: db/cable_migrate

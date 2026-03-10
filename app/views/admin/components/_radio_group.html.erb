@@ -1,0 +1,23 @@
+<%# locals: (name:, options:, selected: nil, layout: "vertical", disabled: false) %>
+<div class="<%= layout == "horizontal" ? ts(:radio, :group_horizontal) : ts(:radio, :group) %>">
+  <% options.each do |option| %>
+    <% option_id = "#{name.to_s.gsub(/[\[\]]/, '_').gsub(/__+/, '_').chomp('_')}_#{option[:value]}" %>
+    <div class="<%= "#{ts(:radio, :wrapper)} #{disabled ? ts(:radio, :disabled) : ''}".strip %>">
+      <input
+        type="radio"
+        name="<%= name %>"
+        id="<%= option_id %>"
+        value="<%= option[:value] %>"
+        class="<%= ts(:radio, :input) %>"
+        <%= "checked" if selected.to_s == option[:value].to_s %>
+        <%= "disabled" if disabled %>
+      />
+      <div>
+        <label for="<%= option_id %>" class="<%= ts(:radio, :label) %>"><%= option[:label] %></label>
+        <% if option[:hint] %>
+          <p class="<%= ts(:radio, :hint) %>"><%= option[:hint] %></p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

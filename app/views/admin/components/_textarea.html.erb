@@ -1,0 +1,26 @@
+<%# locals: (name:, label: nil, value: nil, rows: 4, placeholder: nil, hint: nil, error_message: nil, required: false, disabled: false) %>
+<% field_id = name.to_s.gsub(/[\[\]]/, "_").gsub(/__+/, "_").chomp("_") %>
+<div class="<%= ts(:form, :field) %>">
+  <% if label %>
+    <label for="<%= field_id %>" class="<%= ts(:form, :label) %>">
+      <%= label %>
+      <% if required %>
+        <span class="<%= ts(:form, :required) %>">*</span>
+      <% end %>
+    </label>
+  <% end %>
+  <textarea
+    name="<%= name %>"
+    id="<%= field_id %>"
+    rows="<%= rows %>"
+    placeholder="<%= placeholder %>"
+    class="<%= "#{ts(:textarea, :base)} #{error_message ? ts(:textarea, :error) : ''} #{disabled ? ts(:textarea, :disabled) : ''}".strip %>"
+    <%= "required" if required %>
+    <%= "disabled" if disabled %>
+  ><%= value %></textarea>
+  <% if error_message %>
+    <p class="<%= ts(:form, :error) %>"><%= error_message %></p>
+  <% elsif hint %>
+    <p class="<%= ts(:form, :hint) %>"><%= hint %></p>
+  <% end %>
+</div>

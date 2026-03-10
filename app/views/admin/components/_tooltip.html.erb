@@ -1,0 +1,8 @@
+<%# locals: (text:, position: "top") %>
+<div class="relative inline-block" data-controller="tooltip" data-tooltip-position-value="<%= position %>" data-action="mouseenter->tooltip#show mouseleave->tooltip#hide focusin->tooltip#show focusout->tooltip#hide">
+  <%= yield %>
+  <div class="<%= ts(:tooltip, :wrapper) %> hidden" data-tooltip-target="content" role="tooltip">
+    <%= text %>
+    <div class="<%= ts(:tooltip, :arrow) %>" data-tooltip-target="arrow"></div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+schema: spec-driven
+
+context: |
+  App: Ramadhan 20 Koperasi Cms
+  Stack: Ruby 3.4.1, Rails 8, PostgreSQL
+  Assets: Propshaft + Import Maps (no Node.js, no npm)
+  CSS: Tailwind CSS via tailwindcss-rails gem
+  JS: Hotwire (Turbo + Stimulus), no JS bundling
+  Auth: Rails 8 generated auth (session-based, bcrypt)
+  Jobs/Cache/Cable: Solid Queue, Solid Cache, Solid Cable (PostgreSQL-backed)
+  Deploy: Railway
+  Admin: boolean on User model, Admin::BaseController with require_admin
+  Theme: classic
+
+rules:
+  proposal:
+    - No database wiring unless explicitly requested
+    - UI-only changes use hardcoded ERB data, no ActiveRecord queries
+    - Always use bin/rails generate for controllers, models, migrations
+  tasks:
+    - Each task must be independently committable
+    - Include a CLAUDE.md update task in every change
+    - Group tasks by: Routes, Controllers, Views, Tests, Cleanup

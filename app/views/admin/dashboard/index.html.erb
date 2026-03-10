@@ -1,0 +1,35 @@
+<% content_for(:page_title, "Dashboard") %>
+
+<!-- Greeting -->
+<%= render "admin/components/page_header",
+  heading: "#{greeting_time}, #{current_user.email_address.split('@').first}",
+  subtitle: "Here's what's happening with your team." %>
+
+<!-- Stats -->
+<div class="<%= ts(:stat, :group) %>">
+  <%= render "admin/components/stat", label: "members", value: 0 %>
+  <%= render "admin/components/stat", label: "departments", value: 0 %>
+  <%= render "admin/components/stat", label: "active", value: 0 %>
+</div>
+
+<div class="<%= ts(:stat, :divider) %>"></div>
+
+<!-- Two columns -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-16">
+
+  <!-- Get Started -->
+  <div class="lg:col-span-3">
+    <%= render "admin/components/section_label", text: "get started" %>
+    <div class="<%= ts(:step, :group) %>">
+      <%= render "admin/components/step", number: 1, title: "Create departments", description: "Organize your team -- engineering, design, marketing." %>
+      <%= render "admin/components/step", number: 2, title: "Add team members", description: "Name, role, photo, and department assignment." %>
+      <%= render "admin/components/step", number: 3, title: "Publish your team page", description: "Updates automatically as you add members." %>
+    </div>
+  </div>
+
+  <!-- Activity -->
+  <div class="lg:col-span-2">
+    <%= render "admin/components/section_label", text: "recent activity" %>
+    <%= render "admin/components/empty_state", message: "Nothing yet." %>
+  </div>
+</div>

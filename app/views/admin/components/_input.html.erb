@@ -1,0 +1,30 @@
+<%# locals: (name:, label: nil, type: "text", value: nil, placeholder: nil, hint: nil, error_message: nil, required: false, disabled: false, **html_options) %>
+<% field_id = name.to_s.gsub(/[\[\]]/, "_").gsub(/__+/, "_").chomp("_") %>
+<div class="<%= ts(:form, :field) %>">
+  <% if label %>
+    <label for="<%= field_id %>" class="<%= ts(:form, :label) %>">
+      <%= label %>
+      <% if required %>
+        <span class="<%= ts(:form, :required) %>">*</span>
+      <% end %>
+    </label>
+  <% end %>
+  <input
+    type="<%= type %>"
+    name="<%= name %>"
+    id="<%= field_id %>"
+    value="<%= value %>"
+    placeholder="<%= placeholder %>"
+    class="<%= "#{ts(:input, :base)} #{error_message ? ts(:input, :error) : ''} #{disabled ? ts(:input, :disabled) : ''}".strip %>"
+    <%= "required" if required %>
+    <%= "disabled" if disabled %>
+    <% html_options.each do |key, val| %>
+      <%= "#{key}=\"#{val}\"" %>
+    <% end %>
+  />
+  <% if error_message %>
+    <p class="<%= ts(:form, :error) %>"><%= error_message %></p>
+  <% elsif hint %>
+    <p class="<%= ts(:form, :hint) %>"><%= hint %></p>
+  <% end %>
+</div>

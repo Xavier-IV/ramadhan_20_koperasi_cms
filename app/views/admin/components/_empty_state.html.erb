@@ -1,0 +1,5 @@
+<%# locals: (message:, subtext: nil) %>
+<p class="<%= ts(:empty_state, :message) %>"><%= message %></p>
+<% if subtext %>
+  <p class="<%= ts(:empty_state, :subtext) %>"><%= subtext %></p>
+<% end %>

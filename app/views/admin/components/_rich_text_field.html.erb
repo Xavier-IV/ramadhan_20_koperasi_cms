@@ -1,0 +1,5 @@
+<%# Usage: render "admin/components/rich_text_field", form: form, attribute: :body, label: "Content" %>
+<div class="<%= ts(:form, :field) %>">
+  <label class="<%= ts(:form, :label) %>"><%= label %></label>
+  <%= form.rich_text_area attribute %>
+</div>

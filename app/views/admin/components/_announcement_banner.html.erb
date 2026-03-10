@@ -1,0 +1,18 @@
+<% Announcement.active.ordered.each do |announcement| %>
+  <div class="<%= ts(:announcement, :banner) %> <%= ts(:announcement, announcement.kind.to_sym) %>"
+       data-controller="announcement-dismiss"
+       data-announcement-dismiss-id-value="<%= announcement.id %>">
+    <div class="flex-1 min-w-0">
+      <p class="<%= ts(:announcement, :title) %>"><%= announcement.title %></p>
+      <% if announcement.body.present? %>
+        <div class="<%= ts(:announcement, :body) %>"><%= strip_tags(announcement.body.to_plain_text).truncate(120) %></div>
+      <% end %>
+    </div>
+    <button type="button"
+            class="<%= ts(:announcement, :dismiss) %>"
+            data-action="announcement-dismiss#close"
+            aria-label="Dismiss">
+      <%= heroicon(:x_mark, classes: "w-4 h-4") %>
+    </button>
+  </div>
+<% end %>

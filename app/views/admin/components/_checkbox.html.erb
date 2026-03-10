@@ -1,0 +1,20 @@
+<%# locals: (name:, label:, checked: false, value: "1", hint: nil, disabled: false) %>
+<% field_id = name.to_s.gsub(/[\[\]]/, "_").gsub(/__+/, "_").chomp("_") %>
+<div class="<%= "#{ts(:checkbox, :wrapper)} #{disabled ? ts(:checkbox, :disabled) : ''}".strip %>">
+  <input type="hidden" name="<%= name %>" value="0" />
+  <input
+    type="checkbox"
+    name="<%= name %>"
+    id="<%= field_id %>"
+    value="<%= value %>"
+    class="<%= ts(:checkbox, :input) %>"
+    <%= "checked" if checked %>
+    <%= "disabled" if disabled %>
+  />
+  <div>
+    <label for="<%= field_id %>" class="<%= ts(:checkbox, :label) %>"><%= label %></label>
+    <% if hint %>
+      <p class="<%= ts(:checkbox, :hint) %>"><%= hint %></p>
+    <% end %>
+  </div>
+</div>

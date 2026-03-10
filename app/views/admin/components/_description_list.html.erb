@@ -1,0 +1,9 @@
+<%# locals: (items:, layout: "stacked") %>
+<dl class="<%= ts(:description_list, :wrapper) %>">
+  <% items.each do |item| %>
+    <div class="<%= layout == "horizontal" ? ts(:description_list, :item_horizontal) : ts(:description_list, :item) %>">
+      <dt class="<%= layout == "horizontal" ? ts(:description_list, :term_horizontal) : ts(:description_list, :term) %>"><%= item[:term] %></dt>
+      <dd class="<%= ts(:description_list, :detail) %>"><%= item[:detail] %></dd>
+    </div>
+  <% end %>
+</dl>

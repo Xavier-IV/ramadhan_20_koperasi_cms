@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -e
+
+# Sets up a git worktree with its own isolated database.
+# Run this after `git worktree add` to prepare the worktree for development.
+#
+# Usage:
+#   git worktree add .claude/worktrees/my-feature -b feature/my-feature
+#   cd .claude/worktrees/my-feature
+#   bin/setup-worktree
+#
+# What it does:
+#   1. Verifies you're in a git worktree (not the main repo)
+#   2. Installs dependencies (bundle)
+#   3. Creates worktree-specific dev and test databases
+#   4. Runs migrations
+#   5. Sets up admin user for local testing
+
+GIT_DIR=$(git rev-parse --git-dir 2>/dev/null)
+
+if [[ ! "$GIT_DIR" == *".git/worktrees/"* ]]; then
+  echo "ERROR: Not in a git worktree."
+  echo "This script is for worktrees only. Use bin/setup for the main repo."
+  exit 1
+fi
+
+WORKTREE_NAME=$(basename "$GIT_DIR")
+echo "== Setting up worktree: $WORKTREE_NAME =="
+echo "   Dev DB:  ramadhan_20_koperasi_cms_development_wt_${WORKTREE_NAME}"
+echo "   Test DB: ramadhan_20_koperasi_cms_test_wt_${WORKTREE_NAME}"
+
+echo ""
+echo "== Installing dependencies =="
+bundle check || bundle install
+
+echo ""
+echo "== Creating and migrating databases =="
+bin/rails db:prepare
+
+echo ""
+echo "== Setting up admin user =="
+bin/rails 'admin:setup[admin@example.com,password123]' 2>/dev/null || true
+
+echo ""
+echo "== Worktree ready! =="
+echo "   Run 'bin/dev' to start the dev server."
+echo "   Run 'bin/rails test' to run tests."
+echo "   Databases are isolated — no interference with main repo."

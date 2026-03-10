@@ -1,0 +1,18 @@
+active_info:
+  title: Welcome to the platform
+  kind: 0
+  active: true
+  starts_at: null
+  ends_at: null
+
+active_warning:
+  title: Scheduled maintenance tonight
+  kind: 1
+  active: true
+  starts_at: null
+  ends_at: null
+
+inactive:
+  title: Old announcement
+  kind: 0
+  active: false

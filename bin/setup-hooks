@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Configures git to use .githooks/ directory for hooks.
+# Works natively with worktrees — no symlinks needed.
+# Run this once after cloning: bin/setup-hooks
+
+set -e
+
+echo "== Configuring git hooks path =="
+git config core.hooksPath .githooks
+echo "  Set core.hooksPath to .githooks"
+echo "== Done =="

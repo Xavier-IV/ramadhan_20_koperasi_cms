@@ -1,0 +1,53 @@
+<% content_for(:page_title, "Announcements") %>
+
+<%= render "admin/components/page_header", heading: "Announcements", subtitle: "Manage site-wide announcements" do %>
+  <%= link_to "New Announcement", new_admin_announcement_path, class: ts(:button, :primary) %>
+<% end %>
+
+<% if @announcements.any? %>
+  <table class="<%= ts(:table, :wrapper) %>">
+    <thead class="<%= ts(:table, :head) %>">
+      <tr>
+        <th class="<%= ts(:table, :th) %>">Title</th>
+        <th class="<%= ts(:table, :th) %>">Kind</th>
+        <th class="<%= ts(:table, :th) %>">Status</th>
+        <th class="<%= ts(:table, :th) %>">Schedule</th>
+        <th class="<%= ts(:table, :th) %>"></th>
+      </tr>
+    </thead>
+    <tbody class="<%= ts(:table, :body) %>">
+      <% @announcements.each do |announcement| %>
+        <tr class="<%= ts(:table, :tr) %> <%= ts(:table, :tr_hover) %>">
+          <td class="<%= ts(:table, :td) %>"><%= announcement.title %></td>
+          <td class="<%= ts(:table, :td) %>">
+            <span class="<%= ts(:announcement, :table_kind) %>"><%= announcement.kind %></span>
+          </td>
+          <td class="<%= ts(:table, :td) %>">
+            <% if announcement.active? %>
+              <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :success) %> <%= ts(:badge, :sm) %>">Active</span>
+            <% else %>
+              <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :default) %> <%= ts(:badge, :sm) %>">Inactive</span>
+            <% end %>
+          </td>
+          <td class="<%= ts(:table, :td) %>">
+            <% if announcement.starts_at || announcement.ends_at %>
+              <span class="text-[11px]">
+                <%= announcement.starts_at&.strftime("%b %-d") %> — <%= announcement.ends_at&.strftime("%b %-d") %>
+              </span>
+            <% else %>
+              <span class="text-[11px] opacity-40">Always</span>
+            <% end %>
+          </td>
+          <td class="<%= ts(:table, :td) %> text-right">
+            <%= link_to "Edit", edit_admin_announcement_path(announcement), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
+            <%= button_to "Delete", admin_announcement_path(announcement), method: :delete,
+              class: ts(:button, :danger) + " " + ts(:button, :sm),
+              data: { turbo_confirm: "Delete this announcement?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <%= render "admin/components/empty_state", message: "No announcements yet", subtext: "Create your first announcement to notify users." %>
+<% end %>

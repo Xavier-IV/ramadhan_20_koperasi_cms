@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -e
+
+# Tears down a git worktree's isolated databases.
+# Run this before `git worktree remove` to clean up databases.
+#
+# Usage:
+#   cd .claude/worktrees/my-feature
+#   bin/teardown-worktree
+#   cd ../../..
+#   git worktree remove .claude/worktrees/my-feature
+
+GIT_DIR=$(git rev-parse --git-dir 2>/dev/null)
+
+if [[ ! "$GIT_DIR" == *".git/worktrees/"* ]]; then
+  echo "ERROR: Not in a git worktree."
+  echo "This script is for worktrees only."
+  exit 1
+fi
+
+WORKTREE_NAME=$(basename "$GIT_DIR")
+echo "== Tearing down worktree databases: $WORKTREE_NAME =="
+echo "   Dropping: ramadhan_20_koperasi_cms_development_wt_${WORKTREE_NAME}"
+echo "   Dropping: ramadhan_20_koperasi_cms_test_wt_${WORKTREE_NAME}"
+
+bin/rails db:drop
+
+echo ""
+echo "== Databases dropped. You can now remove the worktree: =="
+echo "   git worktree remove $(pwd)"

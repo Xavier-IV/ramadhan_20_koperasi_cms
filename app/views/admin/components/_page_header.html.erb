@@ -1,0 +1,12 @@
+<%# locals: (heading:, subtitle: nil) %>
+<div class="<%= ts(:page_header, :wrapper) %> flex items-center justify-between">
+  <div>
+    <h2 class="<%= ts(:page_header, :heading) %>"><%= heading %></h2>
+    <% if subtitle %>
+      <p class="<%= ts(:page_header, :subtitle) %>"><%= subtitle %></p>
+    <% end %>
+  </div>
+  <% if content = yield %>
+    <div><%= content %></div>
+  <% end %>
+</div>

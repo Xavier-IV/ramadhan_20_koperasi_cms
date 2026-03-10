@@ -1,0 +1,22 @@
+<%# locals: (name:, label: nil, checked: false, disabled: false, value: "1") %>
+<div class="flex items-center gap-3 <%= ts(:toggle, :disabled) if disabled %>" data-controller="toggle">
+  <input type="hidden" name="<%= name %>" value="0">
+  <input type="checkbox" name="<%= name %>" value="<%= value %>" class="hidden" <%= 'checked' if checked %> <%= 'disabled' if disabled %> data-toggle-target="checkbox">
+  <button type="button"
+    role="switch"
+    aria-checked="<%= checked %>"
+    class="<%= ts(:toggle, :track) %> <%= checked ? ts(:toggle, :track_on) : ts(:toggle, :track_off) %>"
+    data-toggle-target="track"
+    data-on-class="<%= ts(:toggle, :track_on) %>"
+    data-off-class="<%= ts(:toggle, :track_off) %>"
+    data-action="click->toggle#toggle"
+    <%= 'disabled' if disabled %>>
+    <span class="<%= ts(:toggle, :thumb) %> <%= checked ? ts(:toggle, :thumb_on) : ts(:toggle, :thumb_off) %>"
+      data-toggle-target="thumb"
+      data-on-class="<%= ts(:toggle, :thumb_on) %>"
+      data-off-class="<%= ts(:toggle, :thumb_off) %>"></span>
+  </button>
+  <% if label %>
+    <span class="<%= ts(:toggle, :label) %>"><%= label %></span>
+  <% end %>
+</div>

@@ -1,0 +1,307 @@
+/*
+ * Action Text / Trix editor — theme-aware styles
+ *
+ * CSS custom properties (--trix-*) are set per-theme in the admin layout <style> block.
+ * Heroicon outline SVGs replace the default Trix toolbar icons.
+ */
+
+/* ── Toolbar ────────────────────────────────────────────── */
+
+trix-toolbar {
+  background: var(--trix-toolbar-bg, #fafaf9);
+  border: 1px solid var(--trix-border, #e7e5e4);
+  border-bottom: none;
+  padding: 0.375rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem;
+}
+
+trix-toolbar .trix-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem;
+}
+
+trix-toolbar .trix-button-group {
+  display: flex;
+  gap: 1px;
+  margin-right: 0.375rem;
+  border: none;
+}
+
+trix-toolbar .trix-button-group:last-child {
+  margin-right: 0;
+}
+
+trix-toolbar .trix-button {
+  background: transparent;
+  border: none;
+  border-radius: 0.25rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--trix-btn-color, #78716c);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+trix-toolbar .trix-button:hover {
+  background: var(--trix-btn-hover-bg, #f5f5f4);
+  color: var(--trix-btn-active-color, #1c1917);
+}
+
+trix-toolbar .trix-button.trix-active {
+  background: var(--trix-btn-active-bg, #e7e5e4);
+  color: var(--trix-btn-active-color, #1c1917);
+}
+
+trix-toolbar .trix-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Hide default text labels */
+trix-toolbar .trix-button-group--text-tools .trix-button::before,
+trix-toolbar .trix-button-group--block-tools .trix-button::before,
+trix-toolbar .trix-button-group--file-tools .trix-button::before,
+trix-toolbar .trix-button-group--history-tools .trix-button::before {
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+}
+
+/* Dialog (link input) */
+trix-toolbar .trix-dialogs {
+  position: relative;
+}
+
+trix-toolbar .trix-dialog {
+  background: var(--trix-toolbar-bg, #fafaf9);
+  border: 1px solid var(--trix-border, #e7e5e4);
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.25rem;
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  right: 0;
+}
+
+trix-toolbar .trix-dialog input[type="url"],
+trix-toolbar .trix-dialog input[type="text"] {
+  font-size: 0.8125rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--trix-border, #e7e5e4);
+  border-radius: 0.25rem;
+  outline: none;
+  background: var(--trix-editor-bg, #ffffff);
+  color: var(--trix-editor-text, #1c1917);
+  flex: 1;
+}
+
+trix-toolbar .trix-dialog input[type="url"]:focus,
+trix-toolbar .trix-dialog input[type="text"]:focus {
+  border-color: var(--trix-focus, #a8a29e);
+}
+
+trix-toolbar .trix-dialog .trix-button-group {
+  margin-right: 0;
+}
+
+trix-toolbar .trix-dialog .trix-button-group .trix-button {
+  width: auto;
+  height: auto;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* ── Editor ─────────────────────────────────────────────── */
+
+trix-editor {
+  background: var(--trix-editor-bg, #ffffff);
+  border: 1px solid var(--trix-border, #e7e5e4);
+  min-height: 12rem;
+  padding: 0.75rem 1rem;
+  color: var(--trix-editor-text, #1c1917);
+  font-size: 0.875rem;
+  line-height: 1.625;
+  outline: none;
+}
+
+trix-editor:focus {
+  border-color: var(--trix-focus, #a8a29e);
+  box-shadow: 0 0 0 1px var(--trix-focus, #a8a29e);
+}
+
+trix-editor:empty::before {
+  color: var(--trix-btn-color, #78716c);
+  opacity: 0.5;
+}
+
+/* ── Content display (.trix-content) ────────────────────── */
+
+trix-editor h1,
+.trix-content h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 1.25rem 0 0.5rem;
+}
+
+trix-editor a,
+.trix-content a {
+  color: var(--trix-focus, #a8a29e);
+  text-decoration: underline;
+}
+
+trix-editor blockquote,
+.trix-content blockquote {
+  border-left: 3px solid var(--trix-content-blockquote, #d6d3d1);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  color: inherit;
+  opacity: 0.8;
+}
+
+trix-editor pre,
+.trix-content pre {
+  background: var(--trix-content-code-bg, #f5f5f4);
+  padding: 0.75rem 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+  border-radius: 0.25rem;
+}
+
+trix-editor ul,
+.trix-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+trix-editor ol,
+.trix-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+trix-editor li,
+.trix-content li {
+  margin: 0.25rem 0;
+}
+
+trix-editor img,
+.trix-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Heroicon toolbar icons (outline, 24x24) ────────────── */
+/* All icons use stroke="currentColor" stroke-width="1.5" fill="none" */
+/* encoded as data URIs so currentColor picks up the button's text color */
+
+.trix-button--icon-bold::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6.75 3.744h-.753v8.25h7.125a4.125 4.125 0 0 0 0-8.25H6.75Zm0 0v8.25m0 0h8.25a4.125 4.125 0 0 1 0 8.25H5.997v-8.25'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-italic::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5.248 20.246H9.05m0 0h3.696m-3.696 0 5.893-16.502m0 0h-3.697m3.697 0h3.803'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-strike::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 12h7.5M9.424 7.268a2.56 2.56 0 0 1-.386-.318C8.404 6.27 8.15 5.436 8.587 4.7c.578-.975 2.108-1.55 3.413-1.55 1.305 0 2.835.575 3.413 1.55.437.736.181 1.57-.453 2.25M3 12h4.5m0 0a3.23 3.23 0 0 1 .658.075M7.5 12l.658.075m0 0c.9.204 1.754.634 2.342 1.425.438.59.6 1.313.3 1.95-.437.928-1.87 1.55-3.3 1.55s-2.863-.622-3.3-1.55'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-link::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-heading-1::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M2.243 4.493v7.5m0 0v7.502m0-7.501h10.5m0-7.5v7.5m0 0v7.501m4.501-8.627 2.25-1.5v10.126m0 0h-2.25m2.25 0h2.25'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-quote::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-code::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-bullet-list::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-number-list::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M8.242 5.992h12m-12 6.003h12m-12 5.999h12M4.117 7.495v-3.75H2.99m1.125 3.75H2.99m1.125 0H4.24m-1.25 5.997h1.125c.621 0 1.125-.504 1.125-1.124 0-.621-.504-1.125-1.125-1.125H2.99m1.125 2.249H2.99m1.125 0a1.124 1.124 0 0 1 0 2.249H2.99m1.125-2.249H4.24m-1.25 8.247H2.99m1.125 0H4.24m-1.25 0c0-.621.504-1.124 1.125-1.124M2.99 19.744h1.125'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-decrease-nesting-level::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5M3.75 12l3-3m-3 3 3 3'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-increase-nesting-level::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5M12 12l3-3m-3 3 3 3'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-undo::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-redo::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M15 15l6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3'/%3E%3C/svg%3E");
+}
+
+.trix-button--icon-attach::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13'/%3E%3C/svg%3E");
+}
+
+/* ── Attachment gallery ─────────────────────────────────── */
+
+.trix-content .attachment-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.trix-content .attachment-gallery .attachment {
+  flex: 1 0 calc(33.333% - 0.5rem);
+  max-width: calc(33.333% - 0.5rem);
+}
+
+.trix-content .attachment {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+}
+
+.trix-content .attachment__caption {
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--trix-btn-color, #78716c);
+  padding: 0.25rem 0;
+}
+
+/* ── Action Text attachment rendering ───────────────────── */
+
+action-text-attachment {
+  display: inline-block;
+  max-width: 100%;
+}
+
+action-text-attachment .attachment {
+  padding: 0;
+  max-width: 100%;
+}

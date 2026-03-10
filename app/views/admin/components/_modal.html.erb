@@ -1,0 +1,20 @@
+<%# locals: (id:, title: nil, size: "md") %>
+<div id="<%= id %>" class="hidden" data-controller="modal" data-action="keydown.esc@window->modal#close">
+  <div class="<%= ts(:modal, :overlay) %>" data-action="click->modal#closeOnOverlay">
+    <div class="<%= [ts(:modal, :wrapper), ts(:modal, size.to_sym)].join(' ') %>" data-modal-target="dialog">
+      <% if title %>
+        <div class="<%= ts(:modal, :header) %> flex items-center justify-between">
+          <h3 class="<%= ts(:modal, :title) %>"><%= title %></h3>
+          <button type="button" class="<%= ts(:modal, :close) %>" data-action="click->modal#close">&times;</button>
+        </div>
+      <% else %>
+        <div class="flex justify-end px-4 pt-3">
+          <button type="button" class="<%= ts(:modal, :close) %>" data-action="click->modal#close">&times;</button>
+        </div>
+      <% end %>
+      <div class="<%= ts(:modal, :body) %>">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<%# locals: (id: nil, type: "info", title: nil, message:, auto_dismiss: true, duration: 5000) %>
+<div id="<%= id %>" class="<%= [ts(:toast, :item), ts(:toast, type.to_sym)].join(' ') %>" data-controller="dismiss" data-dismiss-auto-value="<%= auto_dismiss %>" data-dismiss-duration-value="<%= duration %>">
+  <button type="button" class="<%= ts(:toast, :dismiss) %>" data-action="click->dismiss#close">&times;</button>
+  <% if title %>
+    <p class="<%= ts(:toast, :title) %>"><%= title %></p>
+  <% end %>
+  <p class="<%= ts(:toast, :message) %>"><%= message %></p>
+  <% if auto_dismiss %>
+    <div class="<%= ts(:toast, :progress) %>" data-dismiss-target="progress" style="width: 100%"></div>
+  <% end %>
+</div>

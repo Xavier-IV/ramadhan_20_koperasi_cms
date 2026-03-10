@@ -1,0 +1,13 @@
+<%# locals: (items:) %>
+<nav class="<%= ts(:breadcrumb, :wrapper) %>" aria-label="Breadcrumb">
+  <% items.each_with_index do |item, index| %>
+    <% if index > 0 %>
+      <span class="<%= ts(:breadcrumb, :separator) %>">/</span>
+    <% end %>
+    <% if index == items.length - 1 %>
+      <span class="<%= ts(:breadcrumb, :item_active) %>" aria-current="page"><%= item[:label] %></span>
+    <% else %>
+      <a href="<%= item[:href] || '#' %>" class="<%= ts(:breadcrumb, :item) %>"><%= item[:label] %></a>
+    <% end %>
+  <% end %>
+</nav>

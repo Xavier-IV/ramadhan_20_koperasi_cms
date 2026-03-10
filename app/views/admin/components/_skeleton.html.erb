@@ -1,0 +1,7 @@
+<%# locals: (variant: "text", width: nil, count: 1) %>
+<div class="space-y-2">
+  <% count.times do %>
+    <div class="<%= [ts(:skeleton, :base), ts(:skeleton, variant.to_sym)].join(' ') %>"
+      <% if width %> style="width: <%= width %>"<% end %>></div>
+  <% end %>
+</div>

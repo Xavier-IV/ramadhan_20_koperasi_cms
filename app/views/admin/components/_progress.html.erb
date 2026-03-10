@@ -1,0 +1,11 @@
+<%# locals: (value:, max: 100, variant: "default", size: "md", label: nil) %>
+<% percent = [(value.to_f / max * 100).round, 100].min %>
+<% bar_class = variant == "default" ? ts(:progress, :bar) : ts(:progress, :"bar_#{variant}") %>
+<div>
+  <div class="<%= ts(:progress, :track) %> <%= ts(:progress, size.to_sym) %>">
+    <div class="<%= bar_class %>" style="width: <%= percent %>%"></div>
+  </div>
+  <% if label %>
+    <p class="<%= ts(:progress, :label) %>"><%= label %></p>
+  <% end %>
+</div>
