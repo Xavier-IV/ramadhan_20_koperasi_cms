@@ -1,0 +1,48 @@
+<% content_for(:page_title, "Contributions") %>
+
+<%= render "admin/components/page_header", heading: "Contributions", subtitle: "Manage monthly member contributions" do %>
+  <%= link_to "New Contribution", new_admin_contribution_path, class: ts(:button, :primary) %>
+<% end %>
+
+<% if @contributions.any? %>
+  <table class="<%= ts(:table, :wrapper) %>">
+    <thead class="<%= ts(:table, :head) %>">
+      <tr>
+        <th class="<%= ts(:table, :th) %>">Member</th>
+        <th class="<%= ts(:table, :th) %>">Month/Year</th>
+        <th class="<%= ts(:table, :th) %>">Amount (RM)</th>
+        <th class="<%= ts(:table, :th) %>">Status</th>
+        <th class="<%= ts(:table, :th) %>">Paid On</th>
+        <th class="<%= ts(:table, :th) %>"></th>
+      </tr>
+    </thead>
+    <tbody class="<%= ts(:table, :body) %>">
+      <% @contributions.each do |contribution| %>
+        <tr class="<%= ts(:table, :tr) %> <%= ts(:table, :tr_hover) %>">
+          <td class="<%= ts(:table, :td) %>">
+            <%= link_to contribution.member.name, admin_member_path(contribution.member), class: "underline", data: { turbo_frame: "_top" } %>
+          </td>
+          <td class="<%= ts(:table, :td) %>"><%= Date::MONTHNAMES[contribution.month] %> <%= contribution.year %></td>
+          <td class="<%= ts(:table, :td) %>"><%= number_to_currency(contribution.amount, unit: "RM ") %></td>
+          <td class="<%= ts(:table, :td) %>">
+            <% if contribution.paid? %>
+              <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :success) %> <%= ts(:badge, :sm) %>">Paid</span>
+            <% else %>
+              <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :danger) %> <%= ts(:badge, :sm) %>">Missed</span>
+            <% end %>
+          </td>
+          <td class="<%= ts(:table, :td) %>"><%= contribution.paid_on&.strftime("%b %-d, %Y") || "-" %></td>
+          <td class="<%= ts(:table, :td) %> text-right">
+            <%= link_to "View", admin_contribution_path(contribution), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
+            <%= link_to "Edit", edit_admin_contribution_path(contribution), class: ts(:button, :ghost) + " " + ts(:button, :sm) %>
+            <%= button_to "Delete", admin_contribution_path(contribution), method: :delete,
+              class: ts(:button, :danger) + " " + ts(:button, :sm),
+              data: { turbo_confirm: "Delete this contribution?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <%= render "admin/components/empty_state", message: "No contributions yet", subtext: "Record your first member contribution." %>
+<% end %>
