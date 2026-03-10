@@ -4,6 +4,9 @@ Rails.application.routes.draw do
       root "dashboard#index"
       resources :members
       resources :contributions
+      resources :loans do
+        resources :loan_repayments, only: [ :new, :create ]
+      end
       resources :announcements, except: [ :show ]
       resource :impersonation, only: [ :create, :destroy ]
       resources :audit_logs, only: [ :index ]
