@@ -10,7 +10,7 @@ Ramadhan 20 Koperasi Cms -- a CMS app scaffolded from the YouTube channel cms_te
 
 - **Public home page** (`/`) -- `PagesController#home` with `application` layout (unauthenticated)
 - **Authentication** -- Rails 8.1 generated auth with sessions and password reset
-- **Admin dashboard** (`/admin`) -- `Admin::DashboardController#index` with `admin` layout (requires admin)
+- **Admin dashboard** (`/admin`) -- `Admin::DashboardController#index` with `admin` layout (requires admin). Shows live KPI cards: active members count, contributions collected this month, members in arrears (red alert), loans with missed repayments (amber warning). Quick links to members, contributions, and loans pages.
 - **Admin namespace** -- `Admin::BaseController` with `require_admin` before_action
 - **User model** -- `admin` boolean (default: false, null: false)
 - **Dev admin** -- `admin@example.com` / `password123` (created via `admin:setup` rake task, not seeded)
