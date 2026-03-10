@@ -1,0 +1,23 @@
+ahmad_jan:
+  loan: ahmad_loan
+  amount: 500.00
+  paid_on: 2025-01-10
+  notes:
+
+ahmad_feb:
+  loan: ahmad_loan
+  amount: 500.00
+  paid_on: 2025-02-10
+  notes:
+
+siti_jan:
+  loan: siti_loan
+  amount: 1000.00
+  paid_on: 2025-01-15
+  notes: First repayment
+
+settled_full:
+  loan: settled_loan
+  amount: 1000.00
+  paid_on: 2024-07-01
+  notes: Final payment

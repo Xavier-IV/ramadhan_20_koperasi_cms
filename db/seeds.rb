@@ -103,3 +103,48 @@ members_inactive    = %w[KWB-010]
 end
 # insert_all! bypasses callbacks - no audit log entries in seeds
 Contribution.insert_all!(contribution_rows)
+
+# Loans and repayments
+# insert_all! intentionally bypasses callbacks (no auto_settle in seed)
+loan_rows = [
+  {
+    member_id: Member.find_by!(member_id: "KWB-001").id,
+    amount: 5000.00, approved_date: Date.new(2025, 1, 15),
+    monthly_repayment: 500.00, status: 0, uuid: SecureRandom.uuid,
+    created_at: Time.current, updated_at: Time.current
+  },
+  {
+    member_id: Member.find_by!(member_id: "KWB-002").id,
+    amount: 10000.00, approved_date: Date.new(2025, 1, 20),
+    monthly_repayment: 1000.00, status: 0, uuid: SecureRandom.uuid,
+    created_at: Time.current, updated_at: Time.current
+  },
+  {
+    member_id: Member.find_by!(member_id: "KWB-003").id,
+    amount: 3000.00, approved_date: Date.new(2025, 2, 1),
+    monthly_repayment: 300.00, status: 0, uuid: SecureRandom.uuid,
+    created_at: Time.current, updated_at: Time.current
+  }
+]
+Loan.insert_all!(loan_rows)
+
+repayment_rows = []
+ahmad_loan = Loan.find_by!(member: Member.find_by!(member_id: "KWB-001"))
+siti_loan  = Loan.find_by!(member: Member.find_by!(member_id: "KWB-002"))
+chong_loan = Loan.find_by!(member: Member.find_by!(member_id: "KWB-003"))
+
+# Ahmad: 3 repayments of RM500
+[ [ 2025, 1, 10 ], [ 2025, 2, 10 ], [ 2025, 3, 10 ] ].each do |y, m, d|
+  repayment_rows << { loan_id: ahmad_loan.id, amount: 500.00, paid_on: Date.new(y, m, d),
+                       notes: nil, created_at: Time.current, updated_at: Time.current }
+end
+# Siti: 2 repayments of RM1000
+[ [ 2025, 1, 15 ], [ 2025, 2, 15 ] ].each do |y, m, d|
+  repayment_rows << { loan_id: siti_loan.id, amount: 1000.00, paid_on: Date.new(y, m, d),
+                       notes: nil, created_at: Time.current, updated_at: Time.current }
+end
+# Chong: 1 repayment of RM300
+repayment_rows << { loan_id: chong_loan.id, amount: 300.00, paid_on: Date.new(2025, 2, 20),
+                     notes: nil, created_at: Time.current, updated_at: Time.current }
+
+LoanRepayment.insert_all!(repayment_rows)

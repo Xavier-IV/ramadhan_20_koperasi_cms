@@ -1,0 +1,4 @@
+<% content_for(:page_title, "New Loan") %>
+
+<%= render "admin/components/page_header", heading: "New Loan" %>
+<%= render "admin/loans/form", loan: @loan, members: @members %>

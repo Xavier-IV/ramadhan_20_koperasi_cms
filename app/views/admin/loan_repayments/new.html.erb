@@ -1,0 +1,39 @@
+<% content_for(:page_title, "Record Repayment") %>
+
+<%= render "admin/components/page_header", heading: "Record Repayment", subtitle: "Loan - #{@loan.member.name}" %>
+
+<%= form_with model: [:admin, @loan, @repayment], class: ts(:form, :group) do |f| %>
+  <% if @repayment.errors.any? %>
+    <div class="<%= ts(:alert, :wrapper) %> <%= ts(:alert, :error) %>">
+      <div>
+        <p class="<%= ts(:alert, :title) %>"><%= pluralize(@repayment.errors.count, "error") %> prevented saving:</p>
+        <ul class="<%= ts(:alert, :message) %> list-disc pl-4 mt-1">
+          <% @repayment.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="flex items-center gap-6">
+    <div class="<%= ts(:form, :field) %> flex-1">
+      <%= f.label :amount, "Amount (RM)", class: ts(:form, :label) %>
+      <%= f.number_field :amount, class: ts(:input, :base), step: 0.01, min: 0.01 %>
+    </div>
+    <div class="<%= ts(:form, :field) %> flex-1">
+      <%= f.label :paid_on, "Date Paid", class: ts(:form, :label) %>
+      <%= f.date_field :paid_on, class: ts(:input, :base) %>
+    </div>
+  </div>
+
+  <div class="<%= ts(:form, :field) %>">
+    <%= f.label :notes, class: ts(:form, :label) %>
+    <%= f.text_area :notes, class: ts(:input, :base), rows: 3, placeholder: "Optional notes" %>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= f.submit "Record Repayment", class: ts(:button, :primary) %>
+    <%= link_to "Cancel", admin_loan_path(@loan), class: ts(:button, :ghost) %>
+  </div>
+<% end %>

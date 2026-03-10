@@ -23,6 +23,7 @@ Ramadhan 20 Koperasi Cms -- a CMS app scaffolded from the YouTube channel cms_te
 - **Image Upload Component** -- reusable partial `render "admin/components/image_upload", name: "model[images][]"`
 - **Members** (`/admin/members`) -- Full CRUD for cooperative members. Auto-generated member_id (KWB-001 format), uuid lookup, status enum (active/inactive), Auditable.
 - **Contributions** (`/admin/contributions`) -- Full CRUD for monthly member contributions. Paid/missed status, RM amount, month/year. Member.in_arrears scope (2+ missed). Auditable.
+- **Loans** (`/admin/loans`) -- Full CRUD for member loans. Outstanding balance calculation, auto-settle on full repayment. Nested loan repayments (new/create). Auditable.
 - **Settings** (`/admin/setting/edit`) -- singleton resource for koperasi details (name, registration number, phone, email, address)
 
 ## Tech Stack
@@ -63,6 +64,15 @@ GET    /admin/contributions/:id     admin/contributions#show         (admin layo
 GET    /admin/contributions/:id/edit admin/contributions#edit        (admin layout)
 PATCH  /admin/contributions/:id     admin/contributions#update       (admin layout)
 DELETE /admin/contributions/:id     admin/contributions#destroy      (admin layout)
+GET    /admin/loans            admin/loans#index           (admin layout)
+GET    /admin/loans/new        admin/loans#new             (admin layout)
+POST   /admin/loans            admin/loans#create          (admin layout)
+GET    /admin/loans/:id        admin/loans#show            (admin layout)
+GET    /admin/loans/:id/edit   admin/loans#edit            (admin layout)
+PATCH  /admin/loans/:id        admin/loans#update          (admin layout)
+DELETE /admin/loans/:id        admin/loans#destroy         (admin layout)
+GET    /admin/loans/:loan_id/loan_repayments/new    admin/loan_repayments#new    (admin layout)
+POST   /admin/loans/:loan_id/loan_repayments        admin/loan_repayments#create (admin layout)
 GET    /admin/announcements    admin/announcements#index   (admin layout)
 POST   /admin/announcements    admin/announcements#create
 GET    /admin/announcements/new admin/announcements#new
@@ -84,6 +94,8 @@ PATCH  /admin/setting           admin/settings#update        (admin layout)
 - `app/controllers/concerns/impersonatable.rb` -- overrides `current_user` when impersonating, provides `impersonating?` and `true_user` helpers
 - `app/models/member.rb` -- cooperative member with auto-generated KWB member_id, uuid lookup, status enum, in_arrears scope, Auditable
 - `app/models/contribution.rb` -- monthly contribution with paid/missed enum, unique per member/month/year, Auditable
+- `app/models/loan.rb` -- member loan with outstanding_balance calculation, status enum (active/settled), uuid lookup, Auditable
+- `app/models/loan_repayment.rb` -- loan repayment with auto_settle callback, Auditable
 - `app/models/announcement.rb` -- rich text body, kind enum, active scope with date range
 - `app/models/audit_log.rb` -- polymorphic auditable association, `.log` class method, scopes for filtering/pagination
 - `app/models/concerns/auditable.rb` -- auto-logs create/update/destroy via after_commit callbacks

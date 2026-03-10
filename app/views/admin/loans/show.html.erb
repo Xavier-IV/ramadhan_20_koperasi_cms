@@ -1,0 +1,76 @@
+<% content_for(:page_title, "Loan - #{@loan.member.name}") %>
+
+<%= render "admin/components/page_header", heading: "Loan - #{@loan.member.name}", subtitle: "Approved #{@loan.approved_date.strftime('%b %-d, %Y')}" do %>
+  <%= link_to "Edit", edit_admin_loan_path(@loan), class: ts(:button, :primary) %>
+<% end %>
+
+<div class="<%= ts(:card, :wrapper) %>">
+  <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Member</dt>
+      <dd class="mt-1"><%= @loan.member.name %> (<%= @loan.member.member_id %>)</dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Status</dt>
+      <dd class="mt-1">
+        <% if @loan.active? %>
+          <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :success) %> <%= ts(:badge, :sm) %>">Active</span>
+        <% else %>
+          <span class="<%= ts(:badge, :wrapper) %> <%= ts(:badge, :default) %> <%= ts(:badge, :sm) %>">Settled</span>
+        <% end %>
+      </dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Loan Amount (RM)</dt>
+      <dd class="mt-1"><%= number_with_precision(@loan.amount, precision: 2, delimiter: ",") %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Monthly Repayment (RM)</dt>
+      <dd class="mt-1"><%= number_with_precision(@loan.monthly_repayment, precision: 2, delimiter: ",") %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Approved Date</dt>
+      <dd class="mt-1"><%= @loan.approved_date.strftime("%B %-d, %Y") %></dd>
+    </div>
+    <div>
+      <dt class="<%= ts(:form, :label) %>">Outstanding Balance (RM)</dt>
+      <dd class="mt-1 font-semibold"><%= number_with_precision(@loan.outstanding_balance, precision: 2, delimiter: ",") %></dd>
+    </div>
+  </dl>
+</div>
+
+<div class="mt-8">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold">Repayments</h2>
+    <% if @loan.active? %>
+      <%= link_to "Record Repayment", new_admin_loan_loan_repayment_path(@loan), class: ts(:button, :primary) %>
+    <% end %>
+  </div>
+
+  <% if @repayments.any? %>
+    <table class="<%= ts(:table, :wrapper) %>">
+      <thead class="<%= ts(:table, :head) %>">
+        <tr>
+          <th class="<%= ts(:table, :th) %>">Date</th>
+          <th class="<%= ts(:table, :th) %>">Amount (RM)</th>
+          <th class="<%= ts(:table, :th) %>">Notes</th>
+        </tr>
+      </thead>
+      <tbody class="<%= ts(:table, :body) %>">
+        <% @repayments.each do |repayment| %>
+          <tr class="<%= ts(:table, :tr) %>">
+            <td class="<%= ts(:table, :td) %>"><%= repayment.paid_on.strftime("%b %-d, %Y") %></td>
+            <td class="<%= ts(:table, :td) %>"><%= number_with_precision(repayment.amount, precision: 2, delimiter: ",") %></td>
+            <td class="<%= ts(:table, :td) %>"><%= repayment.notes.present? ? repayment.notes : "-" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-sm opacity-60">No repayments recorded yet.</p>
+  <% end %>
+</div>
+
+<div class="mt-4">
+  <%= link_to "Back to Loans", admin_loans_path, class: ts(:button, :ghost) %>
+</div>

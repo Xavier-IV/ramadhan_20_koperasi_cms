@@ -2,6 +2,7 @@ class Member < ApplicationRecord
   include Auditable
 
   has_many :contributions, dependent: :destroy
+  has_many :loans, dependent: :destroy
 
   enum :status, { active: 0, inactive: 1 }, default: :active
 

@@ -1,0 +1,23 @@
+ahmad_loan:
+  member: ahmad
+  uuid: d4e5f6a7-b8c9-0123-def0-456789012345
+  amount: 5000.00
+  approved_date: 2025-01-15
+  monthly_repayment: 500.00
+  status: 0
+
+siti_loan:
+  member: siti
+  uuid: e5f6a7b8-c9d0-1234-ef01-567890123456
+  amount: 10000.00
+  approved_date: 2025-01-20
+  monthly_repayment: 1000.00
+  status: 0
+
+settled_loan:
+  member: ahmad
+  uuid: f6a7b8c9-d0e1-2345-f012-678901234567
+  amount: 1000.00
+  approved_date: 2024-06-01
+  monthly_repayment: 500.00
+  status: 1
